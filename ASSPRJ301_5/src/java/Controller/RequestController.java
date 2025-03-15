@@ -129,10 +129,11 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
     }
 
     // Lấy dữ liệu từ form
+    
     String dateFromStr = request.getParameter("fromDate") != null ? request.getParameter("fromDate").trim() : "";
     String dateToStr = request.getParameter("toDate") != null ? request.getParameter("toDate").trim() : "";
     String reason = request.getParameter("reason") != null ? request.getParameter("reason").trim() : "";
-
+ // trim() là để loại bỏ khoảng trắng
     List<String> error = new ArrayList<>();
 
     // Kiểm tra dữ liệu trống
