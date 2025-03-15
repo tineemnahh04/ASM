@@ -78,8 +78,8 @@
             <p class="error">Sai thông tin đăng nhập. Vui lòng thử lại.</p>
             <% } %>
             <form action="Login" method="POST">
-                <input type="text👨‍" 👨‍ name="username" placeholder="User" required>
-                <input type="password🔒"🔒 name="password" placeholder="Password" required>
+                <input type="text"  name="username" placeholder="User" required>
+                <input type="password" name="password" placeholder="Password" required>
                 <button type="submit" class="btn">Sign in</button>
             </form>
     </body>
