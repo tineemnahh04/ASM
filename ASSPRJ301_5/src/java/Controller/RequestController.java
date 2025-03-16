@@ -71,39 +71,55 @@ public class RequestController extends HttpServlet {
         }
 
         String action = request.getParameter("action");
+        RequestDAO requestDAO = new RequestDAO();
+
         // Nếu action=edit, nghĩa là muốn sửa
         if ("edit".equals(action)) {
-            // Lấy id
             String idRaw = request.getParameter("id");
             if (idRaw == null) {
-                // Không có id => Quay về trang danh sách
                 response.sendRedirect("Home");
                 return;
             }
             int id = Integer.parseInt(idRaw);
 
             // Lấy thông tin request từ DB
-            RequestDAO requestDAO = new RequestDAO();
-            List<Request> req = requestDAO.getRequestbyId(4);  // Viết hàm này trong DAO
+            List<Request> req = requestDAO.getRequestbyId(id); // Sửa lại để phù hợp với logic cũ
 
-            if (req == null) {
-                // Không tìm thấy => Quay về trang danh sách
+            if (req == null || req.isEmpty()) {
                 response.sendRedirect("Home");
                 return;
             }
 
             // Đưa request này lên JSP để hiển thị form
-            request.setAttribute("editData", req);
+            request.setAttribute("editData", req.get(0)); // Lấy request đầu tiên trong danh sách
             request.setAttribute("isEdit", true);
-            // isEdit=true để JSP biết đang sửa (chứ không phải tạo mới)
-
-            // Forward về Form.jsp
             request.getRequestDispatcher("Form.jsp").forward(request, response);
+            return;
+        } 
+        // Thêm xử lý action=detail để hiển thị chi tiết đơn
+        else if ("detail".equals(action)) {
+            String idRaw = request.getParameter("id");
+            if (idRaw == null) {
+                response.sendRedirect("Home");
+                return;
+            }
+            int id = Integer.parseInt(idRaw);
+
+            // Lấy thông tin chi tiết đơn từ DB
+            Request req = requestDAO.getRequestListById(id); // Thêm phương thức này trong RequestDAO
+
+            if (req == null) {
+                response.sendRedirect("Home?error=RequestNotFound");
+                return;
+            }
+
+            // Đưa thông tin chi tiết lên JSP
+            request.setAttribute("requestDetail", req);
+            request.getRequestDispatcher("Detail.jsp").forward(request, response);
             return;
         }
 
-        // Mặc định nếu không có action=edit, coi như hiển thị form rỗng (tạo mới)
-        // set isEdit = false => JSP biết hiển thị form tạo mới
+        // Mặc định nếu không có action hoặc action không xác định, hiển thị form tạo mới
         request.setAttribute("isEdit", false);
         request.getRequestDispatcher("Form.jsp").forward(request, response);
     }
@@ -169,7 +185,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
 
     // Nếu không có lỗi, tiến hành chèn vào database
     RequestDAO requestDAO = new RequestDAO();
-    Request newRequest = new Request(0, account.getEmployeeId(), dateFrom, dateTo, now, reason, "Pending");
+    Request newRequest = new Request(0, account.getEmployeeId(), dateFrom, dateTo, now, reason, "Inprogress");
 
     int result = requestDAO.insert(newRequest);
 
