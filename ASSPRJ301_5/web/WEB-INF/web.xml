@@ -17,9 +17,17 @@
         <servlet-class>Controller.RequestController</servlet-class>
     </servlet>
     <servlet>
-    <servlet-name>RequestViewControllerServlet</servlet-name>
-    <servlet-class>Controller.RequestViewControllerServlet</servlet-class>
-</servlet>
+        <servlet-name>RequestViewControllerServlet</servlet-name>
+        <servlet-class>Controller.RequestViewControllerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RequestDetailServlet</servlet-name>
+        <servlet-class>Controller.RequestDetailServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AgendaController</servlet-name>
+        <servlet-class>Controller.AgendaController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -37,7 +45,15 @@
         <url-pattern>/Request</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-    <servlet-name>RequestViewControllerServlet</servlet-name>
-    <url-pattern>/View</url-pattern>
-</servlet-mapping>
+        <servlet-name>RequestViewControllerServlet</servlet-name>
+        <url-pattern>/View</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RequestDetailServlet</servlet-name>
+        <url-pattern>/Detail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AgendaController</servlet-name>
+        <url-pattern>/Agenda</url-pattern>
+    </servlet-mapping>
 </web-app>
