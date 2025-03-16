@@ -162,7 +162,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
 
     // Nếu có lỗi, hiển thị lại form với thông báo
     if (!error.isEmpty()) {
-        request.setAttribute("error", error);
+        request.setAttribute("message", String.join("<br>", error));
         request.getRequestDispatcher("Form.jsp").forward(request, response);
         return; // Dừng xử lý
     }
@@ -174,12 +174,12 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
     int result = requestDAO.insert(newRequest);
 
     if (result > 0) {
-        response.sendRedirect("Home"); // Chuyển hướng nếu thành công
+        request.setAttribute("message", "Tạo đơn thành công!"); 
     } else {
-        error.add("Gửi đơn không thành công, vui lòng thử lại.");
-        request.setAttribute("error", error);
-        request.getRequestDispatcher("Form.jsp").forward(request, response);
+        request.setAttribute("message", "Gửi đơn thất bại. Vui lòng thử lại.");
+        
     }
+    request.getRequestDispatcher("Form.jsp").forward(request, response);
 }
 
     /**
