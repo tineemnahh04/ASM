@@ -23,22 +23,34 @@
                 margin: 0;
             }
             input[type="date"] {
-                background-color: #2c2c2c; 
-                color: white; 
-                border: 2px solid #444; 
-                border-radius: 8px; 
+                background-color: #2c2c2c;
+                color: white;
+                border: 2px solid #444;
+                border-radius: 8px;
                 padding: 10px;
             }
 
             input[type="date"]:focus {
-                border-color: #4CAF50; 
+                border-color: #4CAF50;
                 box-shadow: 0 0 0 2px white, 0 0 0 4px #4CAF50;
                 outline: none;
             }
             input[type="date"]::-webkit-calendar-picker-indicator {
                 filter: invert(1);
             }
+            .message {
+                margin-top: 10px; /* Đẩy xuống một chút */
+                font-size: 14px;
+                font-weight: bold;
+            }
 
+            .success-message {
+                color: #00c853; /* Màu xanh khi thành công */
+            }
+
+            .error-message {
+                color: #ff5252; /* Màu đỏ khi thất bại */
+            }
 
 
             .form-container {
@@ -87,9 +99,9 @@
                 border-radius: 6px;
                 cursor: pointer;
                 transition: background-color 0.3s ease;
-                display: block; 
-                margin: 20px auto 0; 
-                width: 80%; 
+                display: block;
+                margin: 20px auto 0;
+                width: 80%;
             }
 
             .submit-btn:hover {
@@ -103,6 +115,22 @@
                 background-color: #442222;
                 padding: 10px;
                 border-radius: 6px;
+            }
+            .back-btn {
+                background-color: #00c853; /* Màu xanh lá */
+                color: white;
+                border: none;
+                padding: 8px 16px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 14px;
+                position: absolute;
+                top: 20px;
+                left: 20px;
+            }
+
+            .back-btn:hover {
+                background-color: #009624; /* Màu xanh đậm hơn khi hover */
             }
 
         </style>
@@ -122,15 +150,16 @@
 
                 <button type="submit" class="submit-btn">Gửi</button>
             </form>
-            <c:if test="${not empty error}">
-                <div style="color: red; margin-bottom: 10px;">
-                    <ul>
-                        <c:forEach var="error" items="${error}">
-                            <li>${error}</li>
-                            </c:forEach>
-                    </ul>
+            <c:if test="${not empty message}">
+                <div class="message ${message.contains('thành công') ? 'success-message' : 'error-message'}">
+                    ${message}
                 </div>
+
+                <!-- Nút quay lại  -->
+                <button class="back-btn" onclick="window.location.href = 'Employee.jsp'">Quay lại</button>
             </c:if>
-        </div>
-    </body>
+        </ul>
+    </div>
+</div>
+</body>
 </html>
