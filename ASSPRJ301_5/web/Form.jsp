@@ -43,16 +43,12 @@
                 font-size: 14px;
                 font-weight: bold;
             }
-
             .success-message {
                 color: #00c853; /* Màu xanh khi thành công */
             }
-
             .error-message {
                 color: #ff5252; /* Màu đỏ khi thất bại */
             }
-
-
             .form-container {
                 background-color: #2b2b2b;
                 padding: 30px;
@@ -60,20 +56,17 @@
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
                 width: 400px;
             }
-
             h2 {
                 text-align: center;
                 margin-bottom: 20px;
                 color: white;
             }
-
             label {
                 margin-top: 10px;
                 display: block;
                 font-size: 14px;
                 color: white;
             }
-
             input, textarea {
                 width: 100%;
                 padding: 10px;
@@ -84,12 +77,10 @@
                 background-color: #333;
                 color: white;
             }
-
             input:focus, textarea:focus {
                 border-color: #0aad4b;
                 outline: none;
             }
-
             .submit-btn {
                 background-color: #0aad4b;
                 color: white;
@@ -103,12 +94,9 @@
                 margin: 20px auto 0;
                 width: 80%;
             }
-
             .submit-btn:hover {
                 background-color: #088b3b;
             }
-
-
             .error-message {
                 color: red;
                 margin-top: 10px;
@@ -166,6 +154,7 @@
                 <button type="submit" class="submit-btn">Gửi</button>
                 <button class="back-button" onclick="window.location.href = 'Home'">Quay lại</button>
             </form>
+            
             <c:if test="${empty message}">
                 <!-- Nút quay lại khi chưa gửi đơn -->
                 <button class="back-button" onclick="window.location.href = 'Employee.jsp'">Quay lại</button>
