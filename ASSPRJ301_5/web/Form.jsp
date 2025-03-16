@@ -132,6 +132,21 @@
             .back-btn:hover {
                 background-color: #009624; /* Màu xanh đậm hơn khi hover */
             }
+            .back-button {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                background-color: #FF5252;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                font-size: 16px;
+                cursor: pointer;
+                border-radius: 5px;
+            }
+            .back-button:hover {
+                background-color: #E53935;
+            }
 
         </style>
     </head>
@@ -149,6 +164,7 @@
                 <textarea id="reason" name="reason" required></textarea>
 
                 <button type="submit" class="submit-btn">Gửi</button>
+                <button class="back-button" onclick="window.location.href = 'Home'">Quay lại</button>
             </form>
             <c:if test="${not empty message}">
                 <div class="message ${message.contains('thành công') ? 'success-message' : 'error-message'}">
