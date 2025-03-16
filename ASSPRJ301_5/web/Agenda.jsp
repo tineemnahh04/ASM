@@ -12,24 +12,17 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h2>Lịch làm việc</h2>
+                 <h2>Lịch làm việc</h2>
 
-        <!-- Bộ lọc ngày -->
-        <div class="date-filter">
-            <label for="fromDate">Từ ngày:</label>
-            <input type="date" id="fromDate">
-            <label for="toDate">Đến ngày:</label>
-            <input type="date" id="toDate">
-            <button onclick="filterTable()">Lọc</button>
-        </div>
-        <c:forEach var="schedule" items="${schedules}">
-        <tr>
-            <td>${schedule.eName}</td>
-            <c:forEach var="date" items="${dateRange}">
-                <td class="${schedule.status && schedule.date eq date ? 'available' : 'unavailable'}"></td>
-            </c:forEach>
-        </tr>
-    </c:forEach>
+    <!-- Bộ lọc ngày -->
+    <div class="date-filter">
+        <label for="fromDate">Từ ngày:</label>
+        <input type="date" id="fromDate">
+        <label for="toDate">Đến ngày:</label>
+        <input type="date" id="toDate">
+        <button onclick="filterTable()">Lọc</button>
+    </div>
+
     <!-- Bảng lịch làm việc -->
     <table id="scheduleTable">
         <tr>
@@ -87,7 +80,7 @@
 
             headers.forEach(header => {
                 let date = new Date(header.getAttribute("data-date"));
-
+                
                 // Kiểm tra ngày có nằm trong khoảng không
                 if (date >= from && date <= to) {
                     header.style.display = ""; // Hiển thị cột
