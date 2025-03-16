@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -36,6 +37,11 @@ public class ScheduleDAO {
         }
         return list;
     }
+
+
+
+
+
      public List<ScheduleDTO> getSchedulebyManagerID( int EmployeeId ) {
         List<ScheduleDTO> list = new ArrayList<>();
         String sql = "select  sche.Id,sche.Date,sche.Status,e.Name from Schedule sche inner join Employee e on e.Id"
