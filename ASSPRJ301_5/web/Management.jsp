@@ -60,14 +60,14 @@
     <body>
         <button class="logout-button" onclick="window.location.href = 'http://localhost:8080/ASSPRJ301_5/logout'">Logout</button>
         <div class="container">
-            <button class="custom-button" onclick="window.location.href = 'Form.jsp'">
+            <button class="custom-button" onclick="window.location.href = 'FormManagement.jsp'">
                 <span>
                     <span class="icon"></span> Tạo Đơn Xin Nghỉ Phép <span>➝</span>
                 </span>
             </button>
-            <button class="custom-button" onclick="window.location.href = 'View.jsp'">
+            <button class="custom-button" onclick="window.location.href = 'ListManagement.jsp'">
                 <span>
-                    <span class="icon"></span> Xem Đơn <span>➝</span>
+                    <span class="icon">📋</span> Xem Đơn <span>➝</span>
                 </span>
             </button>
             <button class="custom-button" onclick="window.location.href = 'Accept.jsp'">
