@@ -12,77 +12,104 @@
         <title>Chi tiết đơn nghỉ phép</title>
         <style>
             body {
-                background-color: #121212;
+                background-color: #1e1e1e;
                 color: white;
                 font-family: Arial, sans-serif;
                 display: flex;
-                justify-content: center;
+                flex-direction: column;
                 align-items: center;
+                justify-content: center;
                 height: 100vh;
                 margin: 0;
-                position: relative;
             }
-            .container {
+            .form-container {
+                background-color: #2b2b2b;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                width: 400px;
                 text-align: center;
             }
+            .info-container {
+                background-color: #3a3a3a;
+                padding: 20px;
+                border-radius: 8px;
+                margin-top: 15px;
+                text-align: left;
+                line-height: 1.8;
+            }
+            .info-container p {
+                margin: 10px 0;
+                font-size: 16px;
+            }
+            .submit-btn {
+                display: block;
+                width: 80%;
+                margin: 10px auto;
+                padding: 10px;
+                border-radius: 6px;
+                border: none;
+                cursor: pointer;
+                font-size: 14px;
+                text-align: center;
+            }
+            .submit-btn {
+                background-color: #0aad4b;
+                color: white;
+            }
+            .submit-btn:hover {
+                background-color: #088b3b;
+            }
+            .message {
+                margin-top: 10px;
+                font-size: 14px;
+                font-weight: bold;
+                text-align: center;
+            }
+            .success-message {
+                color: #00c853;
+            }
             .back-button {
-                background-color: #D32F2F; /* Đổi màu đỏ */
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                background-color: #FF5252;
                 color: white;
                 border: none;
                 padding: 10px 20px;
                 font-size: 16px;
                 cursor: pointer;
                 border-radius: 5px;
-                position: absolute;
-                top: 20px;
-                left: 20px; /* Di chuyển sang bên trái */
             }
-
             .back-button:hover {
-                background-color: #B71C1C; /* Màu đỏ đậm hơn khi hover */
+                background-color: #E53935;
             }
-
-            .form-box {
-                background-color: #1E1E1E;
-                padding: 20px;
-                border-radius: 10px;
-                box-shadow: 0 0 10px rgba(0, 200, 83, 0.5);
-                width: 400px;
-            }
-            .form-title {
-                font-size: 24px;
-                margin-bottom: 20px;
-            }
-            .info-box {
-                background-color: #333;
-                padding: 10px;
-                border-radius: 5px;
-                word-wrap: break-word;
-                margin-bottom: 10px;
-            }
-            .error-message {
-                color: red;
+          .title {
+                background-color: #0aad4b;
+                color: white;
+                border: none;
+                padding: 12px 24px;
+                font-size: 16px;
+                border-radius: 6px;
+                transition: background-color 0.3s ease;
             }
         </style>
     </head>
     <body>
-        <button class="back-button" onclick="window.location.href = 'View'">Quay lại</button>
-        <div class="container">
-            <div class="form-box">
-                <h2 class="form-title">Đơn xin nghỉ phép</h2>
-                <c:if test="${not empty requestDetail}">
-                    <div class="info-box"><strong>ID đơn: </strong> ${requestDetail.getId()}</div>
-                    <div class="info-box"><strong>Nhân viên tạo: </strong> ${requestDetail.getEmployeeId()}</div>
-                    <div class="info-box"><strong>Từ ngày: </strong> ${requestDetail.getDateFrom()}</div>
-                    <div class="info-box"><strong>Tới ngày: </strong> ${requestDetail.getDateTo()}</div>
-                    <div class="info-box"><strong>Ngày tạo: </strong> ${requestDetail.getDateCreate()}</div>
-                    <div class="info-box"><strong>Lý do: </strong>${requestDetail.getReason()}</div>
-                    <div class="info-box"><strong>Trạng thái: </strong> ${requestDetail.getStatus()}</div>
-                </c:if>
-                <c:if test="${empty requestDetail}">
-                    <p class="error-message">Không tìm thấy đơn xin nghỉ phép!</p>
-                </c:if>
-            </div>
+        <div class="form-container">
+            <h2 class="title" >Chi tiết dơn xin nghỉ phép </h2>
+            <c:if test="${not empty requestDetail}">
+                <div class="info-container">
+                    <p><strong>ID đơn:</strong> ${requestDetail.getId()}</p> 
+                    <p><strong>Nhân viên tạo:</strong> ${requestDetail.getEmployeeId()}</p>
+                    <p><strong>Từ ngày:</strong> ${requestDetail.getDateFrom()}</p>
+                    <p><strong>Tới ngày:</strong> ${requestDetail.getDateTo()}</p>
+                    <p><strong>Ngày tạo:</strong> ${requestDetail.getDateCreate()}</p>
+                    <p><strong>Lý do:</strong> ${requestDetail.getReason()}</p>
+                    <p><strong>Trạng thái:</strong> ${requestDetail.getStatus()}</p>
+                </div>
+            </c:if>
+            <button class="back-button" onclick="window.location.href = 'Employee.jsp'">Quay lại</button>
         </div>
     </body>
 </html>
