@@ -135,7 +135,7 @@
             .back-button {
                 position: absolute;
                 top: 20px;
-                left: 20px;
+                right: 20px;
                 background-color: #FF5252;
                 color: white;
                 border: none;
@@ -166,13 +166,17 @@
                 <button type="submit" class="submit-btn">Gửi</button>
                 <button class="back-button" onclick="window.location.href = 'Home'">Quay lại</button>
             </form>
+            <c:if test="${empty message}">
+                <!-- Nút quay lại khi chưa gửi đơn -->
+                <button class="back-button" onclick="window.location.href = 'Employee.jsp'">Quay lại</button>
+            </c:if>
+            
             <c:if test="${not empty message}">
                 <div class="message ${message.contains('thành công') ? 'success-message' : 'error-message'}">
                     ${message}
                 </div>
-
-                <!-- Nút quay lại  -->
-                <button class="back-btn" onclick="window.location.href = 'Employee.jsp'">Quay lại</button>
+                <!-- Nút quay lại trang Home sau khi gửi đơn thành công -->
+                <button class="back-button" onclick="window.location.href = 'Home'">Quay lại</button>
             </c:if>
         </ul>
     </div>
