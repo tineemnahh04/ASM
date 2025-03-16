@@ -68,9 +68,13 @@ public class RequestViewControllerServlet extends HttpServlet {
         }
 
         // Gọi DAO lấy danh sách đơn
-        RequestDAO requestdao = new RequestDAO();
-        List<Request> list = requestdao.getRequestbyEmployeeId(account.getEmployeeId());
-
+        RequestDAO r = new RequestDAO();
+        List<Request> list;
+        if (account.getRoleId() == 2) { // Kiểm tra nếu là Manager
+            list = r.getRequestsForManager(account.getEmployeeId());
+        } else {
+            list = r.getRequestbyEmployeeId(account.getEmployeeId());
+        }
         // Gắn danh sách vào request scope
         request.setAttribute("requests", list);
 
