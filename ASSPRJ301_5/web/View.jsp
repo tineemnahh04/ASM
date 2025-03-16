@@ -60,53 +60,53 @@
 <body>
     <div class="container">
         <h2>Danh sách đơn nghỉ phép</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>From</th>
-                    <th>To</th>
-                    <th>Created By</th>
-                    <th>Status</th>
-                    <th>Update</th>
-                </tr>
-            </thead>
-            <tbody>
-                <c:forEach var="request" items="${requests}">
-                    <tr>
-                        <td>
-                            <c:choose>
-                                <c:when test="${request.status eq 'Pending'}">
-                                    <a href="Request?action=edit&id=${request.id}">${request.reason}</a>
-                                </c:when>
-                                <c:otherwise>
-                                    ${request.reason}
-                                </c:otherwise>
-                            </c:choose>
-                        </td>
-                        <td>${request.dateFrom}</td>
-                        <td>${request.dateTo}</td>
-                        <td>${request.dateCreate}</td>
-                        <td>
-                            <c:choose>
-                                <c:when test="${request.status eq 'Pending'}">
-                                    <span class="status-inprogress">Pending</span>
-                                </c:when>
-                                <c:when test="${request.status eq 'Rejected'}">
-                                    <span class="status-rejected">Rejected</span>
-                                </c:when>
-                                <c:otherwise>
-                                    ${request.status}
-                                </c:otherwise>
-                            </c:choose>
-                        </td>
-                        <td>
-                            <a href="Request?action=edit&id=${request.id}">Edit</a>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
+        <c:choose>
+            <c:when test="${empty requests}">
+                <p>Không có đơn nào được tìm thấy.</p>
+            </c:when>
+            <c:otherwise>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Ngày tạo</th>
+                            <th>Từ ngày</th>
+                            <th>Đến ngày</th>
+                            <th>Lý do</th>
+                            <th>Trạng thái</th>
+                            <th>Cập nhật</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="request" items="${requests}">
+                            <tr>
+                                <td>${request.id}</td>
+                                <td>${request.dateCreate}</td>
+                                <td>${request.dateFrom}</td>
+                                <td>${request.dateTo}</td>
+                                <td>${request.reason}</td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${request.status eq 'Pending'}">
+                                            <span class="status-inprogress">Chờ duyệt</span>
+                                        </c:when>
+                                        <c:when test="${request.status eq 'Rejected'}">
+                                            <span class="status-rejected">Từ chối</span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            ${request.status}
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
+                                <td>
+                                    <a href="Request?action=edit&id=${request.id}">Chỉnh sửa</a>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </c:otherwise>
+        </c:choose>
     </div>
 </body>
 </html>
