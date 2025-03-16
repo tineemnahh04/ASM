@@ -78,13 +78,14 @@ public class LoginController extends HttpServlet {
             AccountDAO accountDAO = new AccountDAO();
             Account acc = accountDAO.validateUser(u, p);
             
-            if (acc == null) {
+             if (acc == null) {
                  response.sendRedirect("Login.jsp?error=1");
             } else {
                 HttpSession session = request.getSession();
                 session.setAttribute("account", acc);
                 response.sendRedirect("Home");
             }
+        
     }
 
     /** 
