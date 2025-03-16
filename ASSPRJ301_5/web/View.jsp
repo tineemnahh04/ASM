@@ -59,11 +59,28 @@
             a:hover {
                 text-decoration: underline;
             }
+            .back-button {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                background-color: #FF5252;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                font-size: 16px;
+                cursor: pointer;
+                border-radius: 5px;
+            }
+            .back-button:hover {
+                background-color: #E53935;
+            }
+
         </style>
     </head>
     <body>
         <div class="container">
             <h2>Danh sách đơn nghỉ phép</h2>
+            <button class="back-button" onclick="window.location.href = 'Home'">Quay lại</button>
             <c:choose>
                 <c:when test="${empty requests}">
                     <p>Không có đơn nào được tìm thấy.</p>
@@ -84,28 +101,24 @@
                             <c:forEach var="request" items="${requests}">
                                 <tr>
                                     <td>
-                                        <c:choose>
-                                            <c:when test="${request.status eq 'Pending'}">
-                                                <a href="Request?action=edit&id=${request.id}">${request.reason}</a>
-                                            </c:when>
-                                            <c:otherwise>
-                                                ${request.reason}
-                                            </c:otherwise>
-                                        </c:choose>
+                                        <!-- Tạo liên kết đến trang chi tiết cho mọi trạng thái -->
+                                        <a href="Request?action=detail&id=${request.getId()}">
+                                            ${request.getReason()}
+                                        </a>
                                     </td>
                                     <td>${request.dateFrom}</td>
                                     <td>${request.dateTo}</td>
                                     <td>${request.dateCreate}</td>
                                     <td>
                                         <c:choose>
-                                            <c:when test="${request.status eq 'Pending'}">
+                                            <c:when test="${request.getStatus() eq 'Inprogress'}">
                                                 <span class="status-inprogress">Inprogress</span>
                                             </c:when>
-                                            <c:when test="${request.status eq 'Rejected'}">
-                                                <span class="status-rejected">Từ chối</span>
+                                            <c:when test="${request.getStatus() eq 'Rejected'}">
+                                                <span class="status-rejected">Rejected</span>
                                             </c:when>
                                             <c:otherwise>
-                                                ${request.status}
+                                                ${request.getStatus()}
                                             </c:otherwise>
                                         </c:choose>
                                     </td>
