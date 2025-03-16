@@ -109,7 +109,7 @@
                     <p><strong>Trạng thái:</strong> ${requestDetail.getStatus()}</p>
                 </div>
             </c:if>
-            <button class="back-button" onclick="window.location.href = 'Employee.jsp'">Quay lại</button>
+            <button class="back-button" onclick="window.location.href = 'http://localhost:8080/ASSPRJ301_5/View'">Quay lại</button>
         </div>
     </body>
 </html>
