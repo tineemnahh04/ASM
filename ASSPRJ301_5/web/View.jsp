@@ -10,103 +10,114 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Danh sách đơn nghỉ phép</title>
-    <style>
-        body {
-            background-color: #000;
-            color: #fff;
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
-        }
-        .container {
-            background: #121212;
-            padding: 30px;
-            border-radius: 10px;
-            text-align: center;
-            width: 80%;
-        }
-        h2 {
-            margin-bottom: 10px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-            background: #222;
-            border-radius: 5px;
-        }
-        th, td {
-            padding: 10px;
-            border-bottom: 1px solid #333;
-            text-align: left;
-        }
-        th {
-            background: #1db954;
-        }
-        .status-inprogress { color: yellow; }
-        .status-rejected { color: red; }
-        a {
-            color: #1db954;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h2>Danh sách đơn nghỉ phép</h2>
-        <c:choose>
-            <c:when test="${empty requests}">
-                <p>Không có đơn nào được tìm thấy.</p>
-            </c:when>
-            <c:otherwise>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Ngày tạo</th>
-                            <th>Từ ngày</th>
-                            <th>Đến ngày</th>
-                            <th>Lý do</th>
-                            <th>Trạng thái</th>
-                            <th>Cập nhật</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach var="request" items="${requests}">
+        <style>
+            body {
+                background-color: #000;
+                color: #fff;
+                font-family: Arial, sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                flex-direction: column;
+            }
+            .container {
+                background: #121212;
+                padding: 30px;
+                border-radius: 10px;
+                text-align: center;
+                width: 80%;
+            }
+            h2 {
+                margin-bottom: 10px;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 10px;
+                background: #222;
+                border-radius: 5px;
+            }
+            th, td {
+                padding: 10px;
+                border-bottom: 1px solid #333;
+                text-align: left;
+            }
+            th {
+                background: #1db954;
+            }
+            .status-inprogress {
+                color: yellow;
+            }
+            .status-rejected {
+                color: red;
+            }
+            a {
+                color: #1db954;
+                text-decoration: none;
+            }
+            a:hover {
+                text-decoration: underline;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h2>Danh sách đơn nghỉ phép</h2>
+            <c:choose>
+                <c:when test="${empty requests}">
+                    <p>Không có đơn nào được tìm thấy.</p>
+                </c:when>
+                <c:otherwise>
+                    <table>
+                        <thead>
                             <tr>
-                                <td>${request.id}</td>
-                                <td>${request.dateCreate}</td>
-                                <td>${request.dateFrom}</td>
-                                <td>${request.dateTo}</td>
-                                <td>${request.reason}</td>
-                                <td>
-                                    <c:choose>
-                                        <c:when test="${request.status eq 'Pending'}">
-                                            <span class="status-inprogress">Chờ duyệt</span>
-                                        </c:when>
-                                        <c:when test="${request.status eq 'Rejected'}">
-                                            <span class="status-rejected">Từ chối</span>
-                                        </c:when>
-                                        <c:otherwise>
-                                            ${request.status}
-                                        </c:otherwise>
-                                    </c:choose>
-                                </td>
-                                <td>
-                                    <a href="Request?action=edit&id=${request.id}">Chỉnh sửa</a>
-                                </td>
+                                <th>Title</th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Created By</th>
+                                <th>Status</th>
+                                <th>Update</th>
                             </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
-            </c:otherwise>
-        </c:choose>
-    </div>
-</body>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="request" items="${requests}">
+                                <tr>
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${request.status eq 'Pending'}">
+                                                <a href="Request?action=edit&id=${request.id}">${request.reason}</a>
+                                            </c:when>
+                                            <c:otherwise>
+                                                ${request.reason}
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
+                                    <td>${request.dateFrom}</td>
+                                    <td>${request.dateTo}</td>
+                                    <td>${request.dateCreate}</td>
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${request.status eq 'Pending'}">
+                                                <span class="status-inprogress">Inprogress</span>
+                                            </c:when>
+                                            <c:when test="${request.status eq 'Rejected'}">
+                                                <span class="status-rejected">Từ chối</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                ${request.status}
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
+                                    <td>
+                                        <a href="Request?action=edit&id=${request.id}">Edit</a>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </c:otherwise>
+            </c:choose>
+        </div>
+    </body>
 </html>
