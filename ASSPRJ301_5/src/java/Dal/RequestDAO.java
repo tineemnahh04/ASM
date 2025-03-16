@@ -6,6 +6,7 @@ package Dal;
 
 import Model.Request;
 import Model.RequestDTO;
+import Model.ScheduleDTO;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -120,7 +121,87 @@ public class RequestDAO extends DBContext {
         }
         return list;
     }
+public List<RequestDTO> getRequestsForManager(int managerEmployeeId) {
+    List<RequestDTO> list = new ArrayList<>();
+    String sql = "SELECT r.Id, r.DateCreate, r.DateFrom, r.DateTo, r.Reason, r.Status, e.Id AS eId, e.Name AS eName " +
+                 "FROM Request r " +
+                 "INNER JOIN Employee e ON r.EmployeeId = e.Id " +
+                 "WHERE r.EmployeeId = ? OR e.ParentEmployee = ?";
+    try {
+        PreparedStatement st = connection.prepareStatement(sql);
+        st.setInt(1, managerEmployeeId); // Đơn của chính quản lý
+        st.setInt(2, managerEmployeeId); // Đơn của nhân viên cấp dưới
+        ResultSet rs = st.executeQuery();
+        while (rs.next()) {
+            RequestDTO r = new RequestDTO(
+                rs.getInt("Id"),
+                rs.getDate("DateCreate"),
+                rs.getDate("DateFrom"),
+                rs.getDate("DateTo"),
+                rs.getString("Reason"),
+                rs.getString("Status"),
+                rs.getInt("eId"),
+                rs.getString("eName")
+            );
+            list.add(r);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return list;
+}
 
+     public List<ScheduleDTO> getAllSchedules() {
+    List<ScheduleDTO> list = new ArrayList<>();
+    String sql = "SELECT s.Id, s.Date, s.Status, e.Name " +
+                 "FROM Schedule s " +
+                 "INNER JOIN Employee e ON s.EmployeeId = e.Id";
+    try {
+        PreparedStatement st = connection.prepareStatement(sql);
+        ResultSet rs = st.executeQuery();
+        while (rs.next()) {
+            ScheduleDTO s = new ScheduleDTO(
+                rs.getInt("Id"),
+                rs.getDate("Date"),
+                rs.getBoolean("Status"),
+                rs.getString("Name")
+            );
+            list.add(s);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return list;
+}
+public List<RequestDTO> getRequestsForAdmin() {
+    List<RequestDTO> list = new ArrayList<>();
+    String sql = "SELECT r.Id, r.DateCreate, r.DateFrom, r.DateTo, r.Reason, r.Status, e.Id AS eId, e.Name AS eName " +
+                 "FROM Request r " +
+                 "INNER JOIN Employee e ON r.EmployeeId = e.Id " +
+                 "INNER JOIN Account a ON e.Id = a.EmployeeId " +
+                 "WHERE a.RoleId = 2"; // Chỉ lấy đơn của Quản lý
+    try {
+        PreparedStatement st = connection.prepareStatement(sql);
+        ResultSet rs = st.executeQuery();
+        while (rs.next()) {
+            RequestDTO r = new RequestDTO(
+                rs.getInt("Id"),
+                rs.getDate("DateCreate"),
+                rs.getDate("DateFrom"),
+                rs.getDate("DateTo"),
+                rs.getString("Reason"),
+                rs.getString("Status"),
+                rs.getInt("eId"),
+                rs.getString("eName")
+            );
+            list.add(r);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return list;
+}
+    
     public List<RequestDTO> UpdateStatusRequest(String Status, int EmployeeId) {
         List<RequestDTO> list = new ArrayList<>();
         String sql = "update Request SET  Status = '?' where  EmployeeId = ?";
