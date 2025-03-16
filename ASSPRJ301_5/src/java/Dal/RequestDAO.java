@@ -121,6 +121,28 @@ public class RequestDAO extends DBContext {
         }
         return list;
     }
+public Request getRequestListById(int id) {
+    String sql = "SELECT * FROM [Request] WHERE Id = ?";
+    try {
+        PreparedStatement st = connection.prepareStatement(sql);
+        st.setInt(1, id);
+        ResultSet rs = st.executeQuery();
+        if (rs.next()) {
+            Request r = new Request();
+            r.setId(rs.getInt("Id"));
+            r.setEmployeeId(rs.getInt("EmployeeId"));
+            r.setDateTo(rs.getDate("DateTo"));
+            r.setDateFrom(rs.getDate("DateFrom"));
+            r.setDateCreate(rs.getDate("DateCreate"));
+            r.setReason(rs.getString("Reason"));
+            r.setStatus(rs.getString("Status"));
+            return r;
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+    return null;
+}
 
     public List<Request> getRequestsForManager(int managerId) {
         List<Request> list = new ArrayList<>();
