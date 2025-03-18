@@ -142,8 +142,8 @@ public class RequestDAO extends DBContext {
                 Request r = new Request();
                 r.setId(rs.getInt("Id"));
                 r.setEmployeeId(rs.getInt("EmployeeId"));
-                r.setDateTo(rs.getDate("DateTo"));
                 r.setDateFrom(rs.getDate("DateFrom"));
+                r.setDateTo(rs.getDate("DateTo"));
                 r.setDateCreate(rs.getDate("DateCreate"));
                 r.setReason(rs.getString("Reason"));
                 r.setStatus(rs.getString("Status"));
@@ -250,22 +250,21 @@ public class RequestDAO extends DBContext {
     }
 
     public int updateRequest(Request r) {
-        int result = -1;
-        String sql = "UPDATE Request SET dateTo = ?, dateFrom = ?, dateCreate = ?, reason = ?, status = ? WHERE id = ?";
-
-        try (PreparedStatement st = db.connection.prepareStatement(sql)) {
-            st.setDate(1, r.getDateTo());
-            st.setDate(1, r.getDateFrom());
-            st.setDate(1, r.getDateCreate());
-            st.setString(4, r.getReason());
-            st.setString(5, r.getStatus());
-            st.setInt(6, r.getId());
-            result = st.executeUpdate();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return result;
+    int result = -1;
+    String sql = "UPDATE Request SET DateFrom = ?, DateTo = ?, DateCreate = ?, Reason = ?, Status = ? WHERE Id = ?";
+    try (PreparedStatement st = connection.prepareStatement(sql)) {
+        st.setDate(1, r.getDateFrom());
+        st.setDate(2, r.getDateTo());
+        st.setDate(3, r.getDateCreate());
+        st.setString(4, r.getReason());
+        st.setString(5, r.getStatus());
+        st.setInt(6, r.getId());
+        result = st.executeUpdate();
+    } catch (SQLException ex) {
+        ex.printStackTrace();
     }
+    return result;
+}
 
     public List<RequestDTO> getRequestbyEmployeeId() {
         List<RequestDTO> list = new ArrayList<>();
