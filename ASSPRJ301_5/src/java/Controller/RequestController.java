@@ -73,29 +73,22 @@ public class RequestController extends HttpServlet {
         String action = request.getParameter("action");
         RequestDAO requestDAO = new RequestDAO();
 
-        // Nếu action=edit, nghĩa là muốn sửa
-        if ("edit".equals(action)) {
+        if ("edit".equals(action)) { // Thêm logic cho Edit
             String idRaw = request.getParameter("id");
-            if (idRaw == null) {
-                response.sendRedirect("Home");
-                return;
+            if (idRaw != null) {
+                int id = Integer.parseInt(idRaw);
+                Request req = requestDAO.getRequestListById(id);
+
+                if (req != null && req.getEmployeeId() == account.getEmployeeId() && "Inprogress".equals(req.getStatus())) {
+                    request.setAttribute("editData", req);
+                    request.setAttribute("isEdit", true);
+                    request.getRequestDispatcher("Form.jsp").forward(request, response);
+                    return;
+                }
             }
-            int id = Integer.parseInt(idRaw);
-
-            // Lấy thông tin request từ DB
-            List<Request> req = requestDAO.getRequestbyId(id); // Sửa lại để phù hợp với logic cũ
-
-            if (req == null || req.isEmpty()) {
-                response.sendRedirect("Home");
-                return;
-            }
-
-            // Đưa request này lên JSP để hiển thị form
-            request.setAttribute("editData", req.get(0)); // Lấy request đầu tiên trong danh sách
-            request.setAttribute("isEdit", true);
-            request.getRequestDispatcher("Form.jsp").forward(request, response);
+            response.sendRedirect("Home"); // Nếu không hợp lệ, quay lại Home
             return;
-        } 
+        }
         // Thêm xử lý action=detail để hiển thị chi tiết đơn
         else if ("detail".equals(action)) {
             String idRaw = request.getParameter("id");
@@ -149,6 +142,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
     String dateFromStr = request.getParameter("fromDate") != null ? request.getParameter("fromDate").trim() : "";
     String dateToStr = request.getParameter("toDate") != null ? request.getParameter("toDate").trim() : "";
     String reason = request.getParameter("reason") != null ? request.getParameter("reason").trim() : "";
+    String idRaw = request.getParameter("id"); // Thêm để nhận ID khi chỉnh sửa
  // trim() là để loại bỏ khoảng trắng
     List<String> error = new ArrayList<>();
 
@@ -185,18 +179,27 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
 
     // Nếu không có lỗi, tiến hành chèn vào database
     RequestDAO requestDAO = new RequestDAO();
-    Request newRequest = new Request(0, account.getEmployeeId(), dateFrom, dateTo, now, reason, "Inprogress");
+    if (idRaw != null && !idRaw.isEmpty()) { // Thêm logic cập nhật đơn
+            int id = Integer.parseInt(idRaw);
+            Request updatedRequest = new Request(id, account.getEmployeeId(), dateFrom, dateTo, now, reason, "Inprogress");
+            int result = requestDAO.updateRequest(updatedRequest);
+            if (result > 0) {
+                request.setAttribute("message", "Cập nhật đơn thành công!");
+            } else {
+                request.setAttribute("message", "Cập nhật đơn thất bại. Vui lòng thử lại.");
+            }
+        } else { // Giữ nguyên logic tạo mới
+            Request newRequest = new Request(0, account.getEmployeeId(), dateFrom, dateTo, now, reason, "Inprogress");
+            int result = requestDAO.insert(newRequest);
+            if (result > 0) {
+                request.setAttribute("message", "Tạo đơn thành công!");
+            } else {
+                request.setAttribute("message", "Gửi đơn thất bại. Vui lòng thử lại.");
+            }
+        }
 
-    int result = requestDAO.insert(newRequest);
-
-    if (result > 0) {
-        request.setAttribute("message", "Tạo đơn thành công!"); 
-    } else {
-        request.setAttribute("message", "Gửi đơn thất bại. Vui lòng thử lại.");
-        
+        request.getRequestDispatcher("Form.jsp").forward(request, response);
     }
-    request.getRequestDispatcher("Form.jsp").forward(request, response);
-}
     /**
      * Returns a short description of the servlet.
      *
