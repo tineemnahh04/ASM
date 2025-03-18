@@ -90,7 +90,7 @@
                         <thead>
                             <tr>
                                 <th>Title</th>
-                                <th>From</th>
+                                <th>From</th>   <!-- Đổi vị trí: To trước -->
                                 <th>To</th>
                                 <th>Created By</th>
                                 <th>Status</th>
@@ -106,8 +106,8 @@
                                             ${request.getReason()}
                                         </a>
                                     </td>
+                                    <td>${request.dateTo}</td>   <!-- Đổi vị trí: DateTo trước -->
                                     <td>${request.dateFrom}</td>
-                                    <td>${request.dateTo}</td>
                                     <td>${request.dateCreate}</td>
                                     <td>
                                         <c:choose>
@@ -123,7 +123,9 @@
                                         </c:choose>
                                     </td>
                                     <td>
-                                        <a href="Request?action=edit&id=${request.id}">Edit</a>
+                                        <c:if test="${request.getStatus() eq 'Inprogress'}">
+                                            <a href="Request?action=edit&id=${request.id}">Edit</a>
+                                        </c:if>
                                     </td>
                                 </tr>
                             </c:forEach>
