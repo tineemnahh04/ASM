@@ -18,11 +18,11 @@ public class Account {
     public Account() {
     }
 
-    public Account(int id, String username, String password, int employyeeId, int roleId) {
+    public Account(int id, String username, String password, int employeeId, int roleId) {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.employeeId = employyeeId;
+        this.employeeId = employeeId;
         this.roleId = roleId;
     }
 
@@ -54,8 +54,8 @@ public class Account {
         return employeeId;
     }
 
-    public void setEmployeeId(int employyeeId) {
-        this.employeeId = employyeeId;
+    public void setEmployeeId(int employeeId) {
+        this.employeeId = employeeId;
     }
 
     public int getRoleId() {
@@ -68,7 +68,7 @@ public class Account {
 
     @Override
     public String toString() {
-        return "Account{" + "id=" + id + ", username=" + username + ", password=" + password + ", employyeeId=" + employeeId + ", roleId=" + roleId + '}';
+        return "Account{" + "id=" + id + ", username=" + username + ", password=" + password + ", employeeId=" + employeeId + ", roleId=" + roleId + '}';
     }
     
             
