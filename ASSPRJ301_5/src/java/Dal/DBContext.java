@@ -19,6 +19,7 @@ public class DBContext {
             connection = DriverManager.getConnection(url, username, password);
             System.out.println("Kết nối đến cơ sở dữ liệu thành công!");
         } catch (ClassNotFoundException | SQLException ex) {
+            System.out.println("Lỗi kết nối database!");
             Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
