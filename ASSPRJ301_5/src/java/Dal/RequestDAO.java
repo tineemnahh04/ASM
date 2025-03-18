@@ -21,28 +21,6 @@ public class RequestDAO extends DBContext {
 
     DBContext db = new DBContext();
 
-    public List<Request> getAllRequest() {
-        List<Request> list = new ArrayList<>();
-        String sql = "select * from [Request]";
-        try {
-            PreparedStatement st = db.connection.prepareStatement(sql);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                Request r = new Request();
-                r.setId(rs.getInt(1));
-                r.setEmployeeId(rs.getInt(2));
-                r.setDateTo(rs.getDate(3));
-                r.setDateFrom(rs.getDate(4));
-                r.setDateCreate(rs.getDate(5));
-                r.setReason(rs.getString(6));
-                r.setStatus(rs.getString(7));
-                list.add(r);
-            }
-        } catch (SQLException ex) {
-        }
-        return list;
-    }
-
     public int insert(Request request) {
         int result = -1;
         String sql = "INSERT INTO [dbo].[Request] (EmployeeId, DateTo, DateFrom, DateCreate, Reason, Status) "
@@ -65,7 +43,7 @@ public class RequestDAO extends DBContext {
 
     public int Delete(int Id) {
         int result = -1;
-        String sql = "DELETE FROM [dbo].[Request]\n" + "      WHERE ?";
+        String sql = "DELETE FROM [dbo].[Request] WHERE Id = ?";
         try {
             PreparedStatement st = db.connection.prepareStatement(sql);
             st.setInt(1, Id);
@@ -89,8 +67,9 @@ public class RequestDAO extends DBContext {
             PreparedStatement st = db.connection.prepareStatement(sql);
             st.setInt(1, request.getEmployeeId());
             st.setDate(2, new java.sql.Date(request.getDateTo().getTime()));
-            st.setDate(2, new java.sql.Date(request.getDateFrom().getTime()));
-            st.setDate(2, new java.sql.Date(request.getDateCreate().getTime()));
+            st.setDate(3, new java.sql.Date(request.getDateFrom().getTime()));
+            st.setDate(4, new java.sql.Date(request.getDateCreate().getTime()));
+
             st.setString(5, request.getReason());
             st.setString(6, request.getStatus());
             result = st.executeUpdate();
@@ -99,76 +78,107 @@ public class RequestDAO extends DBContext {
         return result;
     }
 
-    public List<RequestDTO> getRequestbyManagerID() {
+    public List<RequestDTO> getRequestbyManagerID(int managerId) {
         List<RequestDTO> list = new ArrayList<>();
-        String sql = "select r.Id,r.DateCreate,r.DateFrom,r.DateTo,r.Reason,r.Status,e.Id,e.Name from Request r inner join Employee  e on r.EmployeeId = e.Id where e.Parentemployee =2";
-        try {
-            PreparedStatement st = db.connection.prepareStatement(sql);
+        String sql = "SELECT r.Id, r.DateCreate, r.DateFrom, r.DateTo, r.Reason, r.Status, e.Id AS eId, e.Name AS eName " +
+                     "FROM Request r " +
+                     "INNER JOIN Employee e ON r.EmployeeId = e.Id " +
+                     "WHERE r.EmployeeId = ?"; // Lọc theo EmployeeId của Manager
+        try (PreparedStatement st = db.connection.prepareStatement(sql)) {
+            st.setInt(1, managerId); // Truyền Manager ID (ví dụ: 2)
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 RequestDTO r = new RequestDTO();
-                r.setId(rs.getInt(1));
-                r.setDateCreate(rs.getDate(2));
-                r.setDateFrom(rs.getDate(3));
-                r.setDateTo(rs.getDate(4));
-                r.setReason(rs.getString(5));
-                r.setStatus(rs.getString(6));
-                r.seteId(rs.getInt(7));
-                r.seteName(rs.getString(8));
-                list.add(r);
-            }
-        } catch (SQLException ex) {
-        }
-        return list;
-    }
-public Request getRequestListById(int id) {
-    String sql = "SELECT * FROM [Request] WHERE Id = ?";
-    try {
-        PreparedStatement st = connection.prepareStatement(sql);
-        st.setInt(1, id);
-        ResultSet rs = st.executeQuery();
-        if (rs.next()) {
-            Request r = new Request();
-            r.setId(rs.getInt("Id"));
-            r.setEmployeeId(rs.getInt("EmployeeId"));
-            r.setDateTo(rs.getDate("DateTo"));
-            r.setDateFrom(rs.getDate("DateFrom"));
-            r.setDateCreate(rs.getDate("DateCreate"));
-            r.setReason(rs.getString("Reason"));
-            r.setStatus(rs.getString("Status"));
-            return r;
-        }
-    } catch (SQLException ex) {
-        ex.printStackTrace();
-    }
-    return null;
-}
-
-    public List<Request> getRequestsForManager(int managerId) {
-        List<Request> list = new ArrayList<>();
-        String sql = "SELECT r.Id, r.EmployeeId, r.DateCreate, r.DateFrom, r.DateTo, r.Reason, r.Status "
-                + "FROM Request r "
-                + "INNER JOIN Employee e ON r.EmployeeId = e.Id "
-                + "WHERE e.ParentEmployee = ? OR e.Id = ?";
-        try (PreparedStatement st = connection.prepareStatement(sql)) {
-            st.setInt(1, managerId);
-            st.setInt(2, managerId);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                Request r = new Request();
                 r.setId(rs.getInt("Id"));
-                r.setEmployeeId(rs.getInt("EmployeeId"));
                 r.setDateCreate(rs.getDate("DateCreate"));
                 r.setDateFrom(rs.getDate("DateFrom"));
                 r.setDateTo(rs.getDate("DateTo"));
                 r.setReason(rs.getString("Reason"));
                 r.setStatus(rs.getString("Status"));
+                r.seteId(rs.getInt("eId"));
+                r.seteName(rs.getString("eName"));
                 list.add(r);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<RequestDTO> getAllRequests() {
+        List<RequestDTO> requestList = new ArrayList<>();
+        String sql = "SELECT id, employee_name, date_create, date_from, date_to, reason, status FROM Requests";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                RequestDTO request = new RequestDTO();
+                request.setId(rs.getInt("id"));
+                request.seteName(rs.getString("employee_name"));
+                request.setDateCreate(rs.getDate("date_create"));
+                request.setDateFrom(rs.getDate("date_from"));
+                request.setDateTo(rs.getDate("date_to"));
+                request.setReason(rs.getString("reason"));
+                request.setStatus(rs.getString("status"));
+
+                requestList.add(request);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return list;
+
+        return requestList;
+    }
+
+    public Request getRequestListById(int id) {
+        String sql = "SELECT * FROM [Request] WHERE Id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                Request r = new Request();
+                r.setId(rs.getInt("Id"));
+                r.setEmployeeId(rs.getInt("EmployeeId"));
+                r.setDateTo(rs.getDate("DateTo"));
+                r.setDateFrom(rs.getDate("DateFrom"));
+                r.setDateCreate(rs.getDate("DateCreate"));
+                r.setReason(rs.getString("Reason"));
+                r.setStatus(rs.getString("Status"));
+                return r;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<RequestDTO> getRequestsForManager(int managerId) {
+        List<RequestDTO> requestList = new ArrayList<>();
+        String sql = "SELECT id, employee_name, date_create, date_from, date_to, reason, status "
+                + "FROM Requests WHERE manager_id = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(2, managerId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    RequestDTO request = new RequestDTO();
+                    request.setId(rs.getInt("id"));
+                    request.seteName(rs.getString("employee_name"));
+                    request.setDateCreate(rs.getDate("date_create"));
+                    request.setDateFrom(rs.getDate("date_from"));
+                    request.setDateTo(rs.getDate("date_to"));
+                    request.setReason(rs.getString("reason"));
+                    request.setStatus(rs.getString("status"));
+
+                    requestList.add(request);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return requestList;
     }
 
     public List<ScheduleDTO> getAllSchedules() {
@@ -223,34 +233,23 @@ public Request getRequestListById(int id) {
         return list;
     }
 
-    public List<RequestDTO> UpdateStatusRequest(String Status, int EmployeeId) {
-        List<RequestDTO> list = new ArrayList<>();
-        String sql = "update Request SET  Status = '?' where  EmployeeId = ?";
-        try {
-            PreparedStatement st = db.connection.prepareStatement(sql);
-            ResultSet rs = st.executeQuery();
+    public int UpdateStatusRequest(String Status, int EmployeeId) {
+        int result = -1;
+        String sql = "UPDATE Request SET Status = ? WHERE EmployeeId = ?";
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setString(1, Status);
             st.setInt(2, EmployeeId);
-            while (rs.next()) {
-                RequestDTO r = new RequestDTO();
-                r.setId(rs.getInt(1));
-                r.setDateCreate(rs.getDate(2));
-                r.setDateFrom(rs.getDate(3));
-                r.setDateTo(rs.getDate(4));
-                r.setReason(rs.getString(5));
-                r.setStatus(rs.getString(6));
-                r.seteId(rs.getInt(7));
-                r.seteName(rs.getString(8));
-                list.add(r);
-            }
+            result = st.executeUpdate();
         } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-        return list;
+        return result;
     }
 
     public int updateRequest(Request r) {
         int result = -1;
-        String sql = "UPDATE Request SET dateTo = ?, dateFrom = ?, dateCreate = ?, reaason = ?, status = ? WHERE id = ?";
+        String sql = "UPDATE Request SET dateTo = ?, dateFrom = ?, dateCreate = ?, reason = ?, status = ? WHERE id = ?";
+
         try (PreparedStatement st = db.connection.prepareStatement(sql)) {
             st.setDate(1, r.getDateTo());
             st.setDate(1, r.getDateFrom());
@@ -288,22 +287,28 @@ public Request getRequestListById(int id) {
         return list;
     }
 
-    public List<Request> getRequestbyEmployeeId(int employeeId) {
-        List<Request> list = new ArrayList<>();
-        String sql = "select r.Id,r.DateCreate,r.DateFrom,r.DateTo,r.Reason,r.Status from Request r where r.EmployeeId=?";
+    public List<RequestDTO> getRequestbyEmployeeId(int employeeId) {
+        List<RequestDTO> list = new ArrayList<>();
+        String sql = "SELECT r.Id, r.DateCreate, r.DateFrom, r.DateTo, r.Reason, r.Status, e.Id AS eId, e.Name AS eName "
+                + "FROM Request r "
+                + "INNER JOIN Employee e ON r.EmployeeId = e.Id "
+                + "WHERE r.EmployeeId = ?";
         try (PreparedStatement st = connection.prepareStatement(sql)) {
             st.setInt(1, employeeId);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                Request r = new Request();
+                RequestDTO r = new RequestDTO();
                 r.setId(rs.getInt("Id"));
-                r.setDateTo(rs.getDate("DateTo"));
-                r.setDateFrom(rs.getDate("DateFrom"));
                 r.setDateCreate(rs.getDate("DateCreate"));
+                r.setDateFrom(rs.getDate("DateFrom"));
+                r.setDateTo(rs.getDate("DateTo"));
                 r.setReason(rs.getString("Reason"));
                 r.setStatus(rs.getString("Status"));
+                r.seteId(rs.getInt("eId"));
+                r.seteName(rs.getString("eName"));
                 list.add(r);
             }
+            System.out.println("getRequestbyEmployeeId: EmployeeId = " + employeeId + ", Số đơn = " + list.size());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -330,23 +335,6 @@ public Request getRequestListById(int id) {
             e.printStackTrace();
         }
         return list;
-    }
-
-    public static void main(String[] args) {
-        RequestDAO dao = new RequestDAO();
-
-        // Gọi phương thức getAllRequest()
-        List<Request> list = dao.getAllRequest();
-
-        // Kiểm tra xem có lấy được dữ liệu không
-        if (list.isEmpty()) {
-            System.out.println("Không có đơn nghỉ phép nào trong database!");
-        } else {
-            System.out.println("Danh sách đơn nghỉ phép:");
-            for (Request r : list) {
-                System.out.println(r);
-            }
-        }
     }
 
 }
