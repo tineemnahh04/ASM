@@ -3,8 +3,8 @@
     Created on : Mar 17, 2025, 12:36:52 AM
     Author     : admin
 --%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -74,46 +74,51 @@
             .back-button:hover {
                 background-color: #E53935;
             }
-
         </style>
     </head>
     <body>
         <div class="container">
-            <button class="back-button" onclick="window.location.href = 'Management.jsp'">Quay lại</button>
-            <h2>Danh Sách Đơn Nghỉ Phép</h2>
-            <table>
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nhân Viên</th>
-                    <th>Từ Ngày</th>
-                    <th>Đến Ngày</th>
-                    <th>Lý Do</th>
-                    <th>Trạng Thái</th>
-                    <th>Chi Tiết</th>
-                </tr>
-                </thead>
-                <c:forEach var="request" items="${requests}">
+            <h2>Danh sách đơn nghỉ phép</h2>
+            <button class="back-button" onclick="window.location.href = 'Home'">Quay lại</button>
+            <c:choose>
+                <c:when test="${empty requests}">
+                    <p>Không có đơn nào được tìm thấy.</p>
+                </c:when>
+                <c:otherwise>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Created</th>
+                                <th>Employee Name</th>
+                                <th>Status</th>
+                                <th>Update</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="request" items="${requests}">
                                 <tr>
                                     <td>
-                                        <!-- Tạo liên kết đến trang chi tiết cho mọi trạng thái -->
-                                        <a href="Request?action=detail&id=${request.getId()}">
-                                            ${request.getReason()}
+                                        <a href="Request?action=detail&id=${request.id}">
+                                            ${request.reason}
                                         </a>
                                     </td>
                                     <td>${request.dateFrom}</td>
                                     <td>${request.dateTo}</td>
                                     <td>${request.dateCreate}</td>
+                                    <td>${request.eName}</td>
                                     <td>
                                         <c:choose>
-                                            <c:when test="${request.getStatus() eq 'Inprogress'}">
+                                            <c:when test="${request.status eq 'Inprogress'}">
                                                 <span class="status-inprogress">Inprogress</span>
                                             </c:when>
-                                            <c:when test="${request.getStatus() eq 'Rejected'}">
+                                            <c:when test="${request.status eq 'Rejected'}">
                                                 <span class="status-rejected">Rejected</span>
                                             </c:when>
                                             <c:otherwise>
-                                                ${request.getStatus()}
+                                                ${request.status}
                                             </c:otherwise>
                                         </c:choose>
                                     </td>
@@ -122,8 +127,10 @@
                                     </td>
                                 </tr>
                             </c:forEach>
-                </tbody>
-            </table>
+                        </tbody>
+                    </table>
+                </c:otherwise>
+            </c:choose>
         </div>
     </body>
 </html>
