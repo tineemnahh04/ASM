@@ -142,21 +142,23 @@
         <div class="form-container">
             <h2>Đơn xin nghỉ phép</h2>
             <form action="Request" method="post">
+                <c:if test="${isEdit}">
+                    <input type="hidden" name="id" value="${editData.id}">
+                </c:if>
                 <label for="from-date">Từ ngày:</label>
-                <input type="date" id="from-date" name="fromDate" required>
+                <input type="date" id="from-date" name="fromDate" value="${editData.dateTo}" required>
 
                 <label for="to-date">Tới ngày:</label>
-                <input type="date" id="to-date" name="toDate" required>
+                <input type="date" id="to-date" name="toDate" value="${editData.dateFrom}" required>
 
                 <label for="reason">Lý do:</label>
-                <textarea id="reason" name="reason" required></textarea>
+                <textarea id="reason" name="reason" required>${editData.reason}</textarea>
 
-                <button type="submit" class="submit-btn">Gửi</button>
+                <button type="submit" class="submit-btn">${isEdit ? 'Cập nhật' : 'Gửi'}</button>
                 <button class="back-button" onclick="window.location.href = 'Home'">Quay lại</button>
             </form>
             
             <c:if test="${empty message}">
-                <!-- Nút quay lại khi chưa gửi đơn -->
                 <button class="back-button" onclick="window.location.href = 'Employee.jsp'">Quay lại</button>
             </c:if>
             
@@ -164,10 +166,8 @@
                 <div class="message ${message.contains('thành công') ? 'success-message' : 'error-message'}">
                     ${message}
                 </div>
-                <!-- Nút quay lại trang Home sau khi gửi đơn thành công -->
                 <button class="back-button" onclick="window.location.href = 'Home'">Quay lại</button>
             </c:if>
-        </ul>
-    </div>
-</body>
+        </div>
+    </body>
 </html>
