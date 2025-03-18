@@ -78,7 +78,7 @@ public class RequestDAO extends DBContext {
         return result;
     }
 
-    public List<RequestDTO> getRequestbyManagerID(int managerId) {
+   public List<RequestDTO> getRequestbyManagerID(int managerId) {
         List<RequestDTO> list = new ArrayList<>();
         String sql = "SELECT r.Id, r.DateCreate, r.DateFrom, r.DateTo, r.Reason, r.Status, e.Id AS eId, e.Name AS eName " +
                      "FROM Request r " +
@@ -109,7 +109,8 @@ public class RequestDAO extends DBContext {
         List<RequestDTO> requestList = new ArrayList<>();
         String sql = "SELECT id, employee_name, date_create, date_from, date_to, reason, status FROM Requests";
 
-        try (PreparedStatement ps = connection.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 RequestDTO request = new RequestDTO();
@@ -129,6 +130,7 @@ public class RequestDAO extends DBContext {
 
         return requestList;
     }
+
 
     public Request getRequestListById(int id) {
         String sql = "SELECT * FROM [Request] WHERE Id = ?";
@@ -154,32 +156,33 @@ public class RequestDAO extends DBContext {
     }
 
     public List<RequestDTO> getRequestsForManager(int managerId) {
-        List<RequestDTO> requestList = new ArrayList<>();
-        String sql = "SELECT id, employee_name, date_create, date_from, date_to, reason, status "
-                + "FROM Requests WHERE manager_id = ?";
+    List<RequestDTO> requestList = new ArrayList<>();
+    String sql = "SELECT id, employee_name, date_create, date_from, date_to, reason, status " +
+                 "FROM Requests WHERE manager_id = ?";
 
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(2, managerId);
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    RequestDTO request = new RequestDTO();
-                    request.setId(rs.getInt("id"));
-                    request.seteName(rs.getString("employee_name"));
-                    request.setDateCreate(rs.getDate("date_create"));
-                    request.setDateFrom(rs.getDate("date_from"));
-                    request.setDateTo(rs.getDate("date_to"));
-                    request.setReason(rs.getString("reason"));
-                    request.setStatus(rs.getString("status"));
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setInt(2, managerId);
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                RequestDTO request = new RequestDTO();
+                request.setId(rs.getInt("id"));
+                request.seteName(rs.getString("employee_name"));
+                request.setDateCreate(rs.getDate("date_create"));
+                request.setDateFrom(rs.getDate("date_from"));
+                request.setDateTo(rs.getDate("date_to"));
+                request.setReason(rs.getString("reason"));
+                request.setStatus(rs.getString("status"));
 
-                    requestList.add(request);
-                }
+                requestList.add(request);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-
-        return requestList;
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+
+    return requestList;
+}
+
 
     public List<ScheduleDTO> getAllSchedules() {
         List<ScheduleDTO> list = new ArrayList<>();
