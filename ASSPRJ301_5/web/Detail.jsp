@@ -84,7 +84,7 @@
             .back-button:hover {
                 background-color: #E53935;
             }
-          .title {
+            .title {
                 background-color: #0aad4b;
                 color: white;
                 border: none;
@@ -102,21 +102,18 @@
                 <div class="info-container">
                     <p><strong>ID Đơn:</strong> ${requestDetail.getId()}</p> 
                     <p><strong>ID Nhân viên :</strong> ${requestDetail.getEmployeeId()}</p>
-                    <p><strong>Từ ngày:</strong> ${requestDetail.getDateFrom()}</p>
-                    <p><strong>Tới ngày:</strong> ${requestDetail.getDateTo()}</p>
+                    <p><strong>Từ ngày:</strong> ${requestDetail.getDateTo()}</p>
+                    <p><strong>Tới ngày:</strong> ${requestDetail.getDateFrom()}</p>
                     <p><strong>Ngày tạo:</strong> ${requestDetail.getDateCreate()}</p>
                     <p><strong>Lý do:</strong> ${requestDetail.getReason()}</p>
                     <p><strong>Trạng thái:</strong> ${requestDetail.getStatus()}</p>
                 </div>
-            <c:choose>
-                    <c:when test="${requestDetail.getId() == 3}">
+                <c:choose>
+                    <c:when >
                         <button class="back-button" onclick="window.location.href = 'http://localhost:8080/ASSPRJ301_5/View'">Quay lại</button>
                     </c:when>
-                    <c:when test="${requestDetail.getId() == 2}">
-                        <button class="back-button" onclick="window.location.href = 'http://localhost:8080/ASSPRJ301_5/Manager'">Quay lại</button>
-                    </c:when>
                 </c:choose>
-                        </c:if>
+            </c:if>
         </div>
     </body>
 </html>
