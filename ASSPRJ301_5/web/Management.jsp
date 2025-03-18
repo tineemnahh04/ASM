@@ -64,17 +64,14 @@
                 <span>
                     <span class="icon"></span> Tạo Đơn Xin Nghỉ Phép <span>➝</span>
                 </span>
-            </button>
-            <button class="custom-button" onclick="window.location.href = 'ListManagement.jsp'">
-                <span>
-                    <span class="icon">📋</span> Xem Đơn <span>➝</span>
-                </span>
-            </button>
-            <button class="custom-button" onclick="window.location.href = 'Accept.jsp'">
-                <span>
-                    <span class="icon"></span> Xét Duyệt Đơn <span>➝</span>
-                </span>
-            </button>
+                <button class="custom-button" onclick="window.location.href = 'Manager'">
+                    <span><span class="icon">📋</span> Xem Đơn <span>➝</span></span>
+                </button>
+                <button class="custom-button" onclick="window.location.href = 'Accept.jsp'">
+                    <span>
+                        <span class="icon"></span> Xét Duyệt Đơn <span>➝</span>
+                    </span>
+                </button>
         </div>
     </body>
 </html>
