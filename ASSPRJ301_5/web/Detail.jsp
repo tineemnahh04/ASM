@@ -108,8 +108,15 @@
                     <p><strong>Lý do:</strong> ${requestDetail.getReason()}</p>
                     <p><strong>Trạng thái:</strong> ${requestDetail.getStatus()}</p>
                 </div>
-            </c:if>
-            <button class="back-button" onclick="window.location.href = 'http://localhost:8080/ASSPRJ301_5/View'">Quay lại</button>
+            <c:choose>
+                    <c:when test="${requestDetail.getId() == 3}">
+                        <button class="back-button" onclick="window.location.href = 'http://localhost:8080/ASSPRJ301_5/View'">Quay lại</button>
+                    </c:when>
+                    <c:when test="${requestDetail.getId() == 2}">
+                        <button class="back-button" onclick="window.location.href = 'http://localhost:8080/ASSPRJ301_5/Manager'">Quay lại</button>
+                    </c:when>
+                </c:choose>
+                        </c:if>
         </div>
     </body>
 </html>
