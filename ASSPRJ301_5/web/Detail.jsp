@@ -97,11 +97,11 @@
     </head>
     <body>
         <div class="form-container">
-            <h2 class="title" >Chi tiết dơn xin nghỉ phép </h2>
+            <h2 class="title" >Chi tiết đơn xin nghỉ phép </h2>
             <c:if test="${not empty requestDetail}">
                 <div class="info-container">
-                    <p><strong>ID đơn:</strong> ${requestDetail.getId()}</p> 
-                    <p><strong>Nhân viên tạo:</strong> ${requestDetail.getEmployeeId()}</p>
+                    <p><strong>ID Đơn:</strong> ${requestDetail.getId()}</p> 
+                    <p><strong>ID Nhân viên :</strong> ${requestDetail.getEmployeeId()}</p>
                     <p><strong>Từ ngày:</strong> ${requestDetail.getDateFrom()}</p>
                     <p><strong>Tới ngày:</strong> ${requestDetail.getDateTo()}</p>
                     <p><strong>Ngày tạo:</strong> ${requestDetail.getDateCreate()}</p>
