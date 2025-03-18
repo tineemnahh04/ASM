@@ -1,4 +1,5 @@
 /*
+
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
@@ -7,6 +8,7 @@ package Controller;
 import Dal.RequestDAO;
 import Model.Account;
 import Model.Request;
+import Model.RequestDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -62,23 +64,30 @@ public class RequestViewControllerServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
+
         if (account == null) {
             response.sendRedirect("Login");
             return;
         }
 
-        // Gọi DAO lấy danh sách đơn
+        System.out.println("Account: RoleId = " + account.getRoleId() + ", EmployeeId = " + account.getEmployeeId());
+
         RequestDAO r = new RequestDAO();
-        List<Request> list;
-        if (account.getRoleId() == 2) { // Kiểm tra nếu là Manager
+        List<RequestDTO> list; // Đảm bảo dùng RequestDTO
+
+        if (account.getRoleId() == 2) {
             list = r.getRequestsForManager(account.getEmployeeId());
         } else {
             list = r.getRequestbyEmployeeId(account.getEmployeeId());
         }
-        // Gắn danh sách vào request scope
-        request.setAttribute("requests", list);
 
-        // Forward sang trang JSP
+        if (list == null || list.isEmpty()) {
+            System.out.println("❌ Không có đơn nào được lấy từ database.");
+        } else {
+            System.out.println("✅ Số lượng đơn lấy được: " + list.size());
+        }
+
+        request.setAttribute("requests", list);
         request.getRequestDispatcher("View.jsp").forward(request, response);
     }
 
