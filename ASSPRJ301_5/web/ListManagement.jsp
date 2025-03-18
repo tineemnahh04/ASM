@@ -92,7 +92,6 @@
                                 <th>From</th>
                                 <th>To</th>
                                 <th>Created</th>
-                                <th>Employee Name</th>
                                 <th>Status</th>
                                 <th>Update</th>
                             </tr>
@@ -105,10 +104,9 @@
                                             ${request.reason}
                                         </a>
                                     </td>
-                                    <td>${request.dateFrom}</td>
                                     <td>${request.dateTo}</td>
+                                    <td>${request.dateFrom}</td>
                                     <td>${request.dateCreate}</td>
-                                    <td>${request.eName}</td>
                                     <td>
                                         <c:choose>
                                             <c:when test="${request.status eq 'Inprogress'}">
