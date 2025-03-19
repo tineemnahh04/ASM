@@ -78,9 +78,7 @@
         </style>
     </head>
     <body>
-        <button class="btn-back" onclick="window.location.href = 'http://localhost:8080/ASSPRJ301_5/Home'">
-            Quay lại
-        </button>
+        <button class="back-button" onclick="window.location.href = 'http://localhost:8080/ASSPRJ301_5/Home'"> Quay lại </button>
         <div class="container">
             <h2>Danh sách đơn nghỉ phép</h2>
             <table>
@@ -111,7 +109,9 @@
                             </td>
                             <td style="white-space: nowrap;">${request.getDateFrom()}</td>
                             <td style="white-space: nowrap;">${request.getDateTo()}</td>
+                            <td></td>
                             <td>
+                            
                                 <c:choose>
                                     <c:when test="${request.getStatus() eq 'Inprogress'}">
                                         <span class="status-pending">Inprogess</span>
@@ -125,7 +125,7 @@
                                 </c:choose>
                             </td>
                             <td>
-                                <c:if test="${request.getStatus() eq 'Inprogess'}">
+                                <c:if test="${request.getStatus() eq 'Inprogress'}">
                                     <div class="action-buttons">
                                         <a href="${pageContext.request.contextPath}/Edit?id=${request.getId()}">Edit</a>
                                         <span>|</span>
