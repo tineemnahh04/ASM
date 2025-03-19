@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author admin
  */
-public class ScheduleDAO {
+public class ScheduleDAO extends DBContext{
 
     DBContext db = new DBContext();
 
