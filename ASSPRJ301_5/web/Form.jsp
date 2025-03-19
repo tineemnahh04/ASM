@@ -139,34 +139,29 @@
         </style>
     </head>
     <body>
+        <button class="btn-back" onclick="window.history.back();">Quay lại</button>
         <div class="form-container">
             <h2>Đơn xin nghỉ phép</h2>
             <form action="Request" method="post">
-                <c:if test="${isEdit}">
-                    <input type="hidden" name="id" value="${editData.id}">
-                </c:if>
                 <label for="from-date">Từ ngày:</label>
-                <input type="date" id="from-date" name="fromDate" value="${editData.dateTo}" required>
-
+                <input type="date" id="from-date" name="fromDate" required>
+                
                 <label for="to-date">Tới ngày:</label>
-                <input type="date" id="to-date" name="toDate" value="${editData.dateFrom}" required>
-
+                <input type="date" id="to-date" name="toDate" required>
+                
                 <label for="reason">Lý do:</label>
-                <textarea id="reason" name="reason" required>${editData.reason}</textarea>
-
-                <button type="submit" class="submit-btn">${isEdit ? 'Cập nhật' : 'Gửi'}</button>
-                <button class="back-button" onclick="window.location.href = 'Home'">Quay lại</button>
+                <textarea id="reason" name="reason" required></textarea>
+                
+                <button type="submit" class="submit-btn">Gửi</button>
             </form>
-            
-            <c:if test="${empty message}">
-                <button class="back-button" onclick="window.location.href = 'Employee.jsp'">Quay lại</button>
-            </c:if>
-            
-            <c:if test="${not empty message}">
-                <div class="message ${message.contains('thành công') ? 'success-message' : 'error-message'}">
-                    ${message}
+            <c:if test="${not empty error}">
+                <div class="error-list">
+                    <ul>
+                        <c:forEach var="err" items="${error}">
+                            <li>${err}</li>
+                        </c:forEach>
+                    </ul>
                 </div>
-                <button class="back-button" onclick="window.location.href = 'Home'">Quay lại</button>
             </c:if>
         </div>
     </body>
