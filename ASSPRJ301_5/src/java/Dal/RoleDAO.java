@@ -15,7 +15,7 @@ import java.sql.*;
  *
  * @author admin
  */
-public class RoleDAO {
+public class RoleDAO extends DBContext{
     DBContext db=new DBContext();
     
     public List<Role> getAllRole() {
