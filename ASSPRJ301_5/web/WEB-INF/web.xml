@@ -17,20 +17,29 @@
         <servlet-class>Controller.RequestController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>RequestViewControllerServlet</servlet-name>
-        <servlet-class>Controller.RequestViewControllerServlet</servlet-class>
+        <servlet-name>RequestViewController</servlet-name>
+        <servlet-class>Controller.RequestViewController</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>RequestDetailServlet</servlet-name>
-        <servlet-class>Controller.RequestDetailServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>AgendaController</servlet-name>
-        <servlet-class>Controller.AgendaController</servlet-class>
-    </servlet>
+
     <servlet>
         <servlet-name>RequestManagerController</servlet-name>
         <servlet-class>Controller.RequestManagerController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DetailRequest</servlet-name>
+        <servlet-class>Controller.DetailRequest</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteRequest</servlet-name>
+        <servlet-class>Controller.DeleteRequest</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditRequest</servlet-name>
+        <servlet-class>Controller.EditRequest</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RequestViewManagement</servlet-name>
+        <servlet-class>Controller.RequestViewManagement</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
@@ -49,19 +58,28 @@
         <url-pattern>/Request</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>RequestViewControllerServlet</servlet-name>
+        <servlet-name>RequestViewController</servlet-name>
         <url-pattern>/View</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>RequestDetailServlet</servlet-name>
-        <url-pattern>/Detail</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>AgendaController</servlet-name>
-        <url-pattern>/Agenda</url-pattern>
-    </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>RequestManagerController</servlet-name>
-        <url-pattern>/Manager</url-pattern>
+        <url-pattern>/Management</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DetailRequest</servlet-name>
+        <url-pattern>/detail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteRequest</servlet-name>
+        <url-pattern>/Delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditRequest</servlet-name>
+        <url-pattern>/Edit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RequestViewManagement</servlet-name>
+        <url-pattern>/ViewManagement</url-pattern>
     </servlet-mapping>
 </web-app>
