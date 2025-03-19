@@ -96,24 +96,46 @@
         </style>
     </head>
     <body>
-        <div class="form-container">
-            <h2 class="title" >Chi tiết đơn xin nghỉ phép </h2>
-            <c:if test="${not empty requestDetail}">
-                <div class="info-container">
-                    <p><strong>ID Đơn:</strong> ${requestDetail.getId()}</p> 
-                    <p><strong>ID Nhân viên :</strong> ${requestDetail.getEmployeeId()}</p>
-                    <p><strong>Từ ngày:</strong> ${requestDetail.getDateTo()}</p>
-                    <p><strong>Tới ngày:</strong> ${requestDetail.getDateFrom()}</p>
-                    <p><strong>Ngày tạo:</strong> ${requestDetail.getDateCreate()}</p>
-                    <p><strong>Lý do:</strong> ${requestDetail.getReason()}</p>
-                    <p><strong>Trạng thái:</strong> ${requestDetail.getStatus()}</p>
+        <div class="container">
+            <h2>Chi tiết đơn nghỉ</h2>
+            <c:if test="${detail != null}">
+                <div class="field">
+                    <label>Từ ngày:</label>
+                    <span>${detail.getDateFrom()}</span>
                 </div>
-                <c:choose>
-                    <c:when >
-                        <button class="back-button" onclick="window.location.href = 'http://localhost:8080/ASSPRJ301_5/View'">Quay lại</button>
-                    </c:when>
-                </c:choose>
+                <div class="field">
+                    <label>Tới ngày:</label>
+                    <span>${detail.getDateTo()}</span>
+                </div>
+                <div class="field">
+                    <label>Ngày tạo:</label>
+                    <span>${detail.getDateCreate()}</span>
+                </div>
+                <div class="field field-multiline">
+                    <label>Lý do:</label>
+                    <span style="white-space: pre-wrap;">${detail.getReason()}</span>
+                </div>
+                <div class="field">
+                    <label>Trạng thái:</label>
+                    <c:choose>
+                        <c:when test="${detail.getStatus() eq 'Inprogress'}">
+                            <span class="status-pending">Inprogress</span>
+                        </c:when>
+                        <c:when test="${detail.getStatus() eq 'Rejected'}">
+                            <span class="status-rejected">Rejected</span>
+                        </c:when>
+                        <c:otherwise>
+                            <span class="status-approved">${detail.getStatus()}</span>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
             </c:if>
+            <c:if test="${empty detail}">
+                <p style="color: red; text-align: center; font-size: 16px;">Không tìm thấy đơn nghỉ phép.</p>
+            </c:if>
+            <div class="back-link">
+                <a href="View">Quay lại</a>
+            </div>
         </div>
     </body>
 </html>
