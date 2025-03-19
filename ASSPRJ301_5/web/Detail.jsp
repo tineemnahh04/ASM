@@ -10,10 +10,10 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Chi tiết đơn nghỉ phép</title>
-        <style>
+     <style>
             body {
                 background-color: #1e1e1e;
-                color: white;
+                color: #fff;
                 font-family: Arial, sans-serif;
                 display: flex;
                 flex-direction: column;
@@ -22,57 +22,83 @@
                 height: 100vh;
                 margin: 0;
             }
+            input[type="date"] {
+                background-color: #2c2c2c;
+                color: white;
+                border: 2px solid #444;
+                border-radius: 8px;
+                padding: 10px;
+            }
+
+            input[type="date"]:focus {
+                border-color: #4CAF50;
+                box-shadow: 0 0 0 2px white, 0 0 0 4px #4CAF50;
+                outline: none;
+            }
+            input[type="date"]::-webkit-calendar-picker-indicator {
+                filter: invert(1);
+            }
             .form-container {
                 background-color: #2b2b2b;
                 padding: 30px;
                 border-radius: 10px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
                 width: 400px;
-                text-align: center;
             }
-            .info-container {
-                background-color: #3a3a3a;
-                padding: 20px;
+            h2 {
+                text-align: center;
+                margin-bottom: 20px;
+                color: white;
+            }
+            label {
+                background-color: #2c2c2c;
+                color: white;
+                border: 2px solid #444;
                 border-radius: 8px;
-                margin-top: 15px;
-                text-align: left;
-                line-height: 1.8;
-            }
-            .info-container p {
-                margin: 10px 0;
-                font-size: 16px;
-            }
-            .submit-btn {
-                display: block;
-                width: 80%;
-                margin: 10px auto;
                 padding: 10px;
-                border-radius: 6px;
-                border: none;
-                cursor: pointer;
+                filter: invert(1);
+                border-color: #4CAF50;
+                box-shadow: 0 0 0 2px white, 0 0 0 4px #4CAF50;
+                outline: none;
+                margin-top: 10px;
+                display: block;
                 font-size: 14px;
-                text-align: center;
+                color: white;
+            }
+            input, textarea {
+                width: 100%;
+                padding: 10px;
+                margin-top: 5px;
+                margin-bottom: 15px;
+                border-radius: 6px;
+                border: 1px solid #444;
+                background-color: #333;
+                color: white;
+            }
+            input:focus, textarea:focus {
+                border-color: #0aad4b;
+                outline: none;
             }
             .submit-btn {
                 background-color: #0aad4b;
                 color: white;
+                border: none;
+                padding: 10px 20px;
+                font-size: 14px;
+                border-radius: 6px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+                display: block;
+                margin: 20px auto 0;
+                width: 80%;
             }
             .submit-btn:hover {
                 background-color: #088b3b;
             }
-            .message {
-                margin-top: 10px;
-                font-size: 14px;
-                font-weight: bold;
-                text-align: center;
-            }
-            .success-message {
-                color: #00c853;
-            }
             .back-button {
                 position: absolute;
                 top: 20px;
-                left: 20px;
+                right: 20px;
                 background-color: #FF5252;
                 color: white;
                 border: none;
@@ -84,58 +110,23 @@
             .back-button:hover {
                 background-color: #E53935;
             }
-            .title {
-                background-color: #0aad4b;
-                color: white;
-                border: none;
-                padding: 12px 24px;
-                font-size: 16px;
-                border-radius: 6px;
-                transition: background-color 0.3s ease;
-            }
         </style>
     </head>
     <body>
-        <div class="container">
+        <div class="form-container">
             <h2>Chi tiết đơn nghỉ</h2>
             <c:if test="${detail != null}">
-                <div class="field">
-                    <label>Từ ngày:</label>
-                    <span>${detail.getDateFrom()}</span>
-                </div>
-                <div class="field">
-                    <label>Tới ngày:</label>
-                    <span>${detail.getDateTo()}</span>
-                </div>
-                <div class="field">
-                    <label>Ngày tạo:</label>
-                    <span>${detail.getDateCreate()}</span>
-                </div>
-                <div class="field field-multiline">
-                    <label>Lý do:</label>
-                    <span style="white-space: pre-wrap;">${detail.getReason()}</span>
-                </div>
-                <div class="field">
-                    <label>Trạng thái:</label>
-                    <c:choose>
-                        <c:when test="${detail.getStatus() eq 'Inprogress'}">
-                            <span class="status-pending">Inprogress</span>
-                        </c:when>
-                        <c:when test="${detail.getStatus() eq 'Rejected'}">
-                            <span class="status-rejected">Rejected</span>
-                        </c:when>
-                        <c:otherwise>
-                            <span class="status-approved">${detail.getStatus()}</span>
-                        </c:otherwise>
-                    </c:choose>
+                    <label>Ngày tạo: ${detail.getDateCreate()}</label>
+                    <label>Từ ngày: ${detail.getDateFrom()}</label> 
+                    <label>Tới ngày: ${detail.getDateTo()}</label> 
+                    <label>Lý do: ${detail.getReason()}</label> 
+                    <label>Trạng thái: ${detail.getStatus()}</label>                      
                 </div>
             </c:if>
-            <c:if test="${empty detail}">
+            <!--<c:if test="${empty detail}">
                 <p style="color: red; text-align: center; font-size: 16px;">Không tìm thấy đơn nghỉ phép.</p>
-            </c:if>
-            <div class="back-link">
-                <a href="View">Quay lại</a>
-            </div>
+            </c:if>-->
+            <button type="button" class="back-button" onclick="window.location.href='View'">Cancel</button>
         </div>
     </body>
 </html>
