@@ -38,17 +38,6 @@
             input[type="date"]::-webkit-calendar-picker-indicator {
                 filter: invert(1);
             }
-            .message {
-                margin-top: 10px; /* Đẩy xuống một chút */
-                font-size: 14px;
-                font-weight: bold;
-            }
-            .success-message {
-                color: #00c853; /* Màu xanh khi thành công */
-            }
-            .error-message {
-                color: #ff5252; /* Màu đỏ khi thất bại */
-            }
             .form-container {
                 background-color: #2b2b2b;
                 padding: 30px;
@@ -97,29 +86,6 @@
             .submit-btn:hover {
                 background-color: #088b3b;
             }
-            .error-message {
-                color: red;
-                margin-top: 10px;
-                background-color: #442222;
-                padding: 10px;
-                border-radius: 6px;
-            }
-            .back-btn {
-                background-color: #00c853; /* Màu xanh lá */
-                color: white;
-                border: none;
-                padding: 8px 16px;
-                border-radius: 5px;
-                cursor: pointer;
-                font-size: 14px;
-                position: absolute;
-                top: 20px;
-                left: 20px;
-            }
-
-            .back-btn:hover {
-                background-color: #009624; /* Màu xanh đậm hơn khi hover */
-            }
             .back-button {
                 position: absolute;
                 top: 20px;
@@ -135,23 +101,22 @@
             .back-button:hover {
                 background-color: #E53935;
             }
-
         </style>
     </head>
     <body>
-        <button class="btn-back" onclick="window.history.back();">Quay lại</button>
+        <button class="back-button" onclick="window.history.back();">Quay lại</button>
         <div class="form-container">
             <h2>Đơn xin nghỉ phép</h2>
             <form action="Request" method="post">
                 <label for="from-date">Từ ngày:</label>
                 <input type="date" id="from-date" name="fromDate" required>
-                
+
                 <label for="to-date">Tới ngày:</label>
                 <input type="date" id="to-date" name="toDate" required>
-                
+
                 <label for="reason">Lý do:</label>
                 <textarea id="reason" name="reason" required></textarea>
-                
+
                 <button type="submit" class="submit-btn">Gửi</button>
             </form>
             <c:if test="${not empty error}">
@@ -159,7 +124,7 @@
                     <ul>
                         <c:forEach var="err" items="${error}">
                             <li>${err}</li>
-                        </c:forEach>
+                            </c:forEach>
                     </ul>
                 </div>
             </c:if>
