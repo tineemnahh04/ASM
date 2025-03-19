@@ -63,29 +63,17 @@ public class RequestManagerController extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
-
         if (account == null) {
-            response.sendRedirect("Login");
-            return;
+            response.sendRedirect("login");
+        } else if (account.getRoleId() == 3) {
+            request.getRequestDispatcher("Employee.jsp").forward(request, response);
+
         }
+        RequestDAO dao = new RequestDAO();
+        List<RequestDTO> requestList = dao.getRequestbyManagerID(account.getEmployeeId());
+        request.setAttribute("requests", requestList);
+        request.getRequestDispatcher("ViewManagement.jsp").forward(request, response);
 
-        RequestDAO requestDAO = new RequestDAO();
-        int managerId = account.getEmployeeId(); // Lấy EmployeeId từ session, đảm bảo là 2 cho Manager
-        List<RequestDTO> list = requestDAO.getRequestbyManagerID(managerId);
-
-        // Debug log
-        System.out.println("Manager ID: " + managerId);
-        if (list == null || list.isEmpty()) {
-            System.out.println("❌ Không có đơn nào được tìm thấy cho Manager ID: " + managerId);
-        } else {
-            System.out.println("✅ Số đơn tìm thấy: " + list.size());
-            for (RequestDTO req : list) {
-                System.out.println("Request: Id=" + req.getId() + ", Reason=" + req.getReason());
-            }
-        }
-
-        request.setAttribute("requests", list); // Gửi danh sách đến JSP
-        request.getRequestDispatcher("ListManagement.jsp").forward(request, response);
     }
 
     /**
@@ -99,9 +87,36 @@ public class RequestManagerController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doGet(request, response);
-    }
+         HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("account");
+        if (account == null) {
+            response.sendRedirect("Login");
+            return;
+        }
 
+        // 2. Lấy tham số từ form
+        String action = request.getParameter("action");  // "Approve" hoặc "Reject"
+        String RequestId = request.getParameter("requestId");
+
+        // 3. Kiểm tra và xử lý
+        if (action != null && RequestId != null) {
+            int requestId = Integer.parseInt(RequestId);
+
+            // Gọi DAO cập nhật status
+            RequestDAO dao = new RequestDAO();
+            if ("Approve".equalsIgnoreCase(action)) {
+                dao.UpdateStatusRequest("Approved", requestId);
+            } else if ("Reject".equalsIgnoreCase(action)) {
+                dao.UpdateStatusRequest("Rejected", requestId);
+            }
+        }
+
+        // 4. Quay lại doGet để load danh sách mới
+        response.sendRedirect("Management");
+    
+
+    }
+    
     /**
      * Returns a short description of the servlet.
      *
