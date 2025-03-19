@@ -63,58 +63,6 @@ public class RequestController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("account");
-        if (account == null) {
-            response.sendRedirect("Login");
-            return;
-        }
-
-        String action = request.getParameter("action");
-        RequestDAO requestDAO = new RequestDAO();
-
-        if ("edit".equals(action)) { // Thêm logic cho Edit
-            String idRaw = request.getParameter("id");
-            if (idRaw != null) {
-                int id = Integer.parseInt(idRaw);
-                Request req = requestDAO.getRequestListById(id);
-
-                if (req != null && req.getEmployeeId() == account.getEmployeeId() && "Inprogress".equals(req.getStatus())) {
-                    request.setAttribute("editData", req);
-                    request.setAttribute("isEdit", true);
-                    request.getRequestDispatcher("Form.jsp").forward(request, response);
-                    return;
-                }
-            }
-            response.sendRedirect("Home"); // Nếu không hợp lệ, quay lại Home
-            return;
-        }
-        // Thêm xử lý action=detail để hiển thị chi tiết đơn
-        else if ("detail".equals(action)) {
-            String idRaw = request.getParameter("id");
-            if (idRaw == null) {
-                response.sendRedirect("Home");
-                return;
-            }
-            int id = Integer.parseInt(idRaw);
-
-            // Lấy thông tin chi tiết đơn từ DB
-            Request req = requestDAO.getRequestListById(id); // Thêm phương thức này trong RequestDAO
-
-            if (req == null) {
-                response.sendRedirect("Home?error=RequestNotFound");
-                return;
-            }
-
-            // Đưa thông tin chi tiết lên JSP
-            request.setAttribute("requestDetail", req);
-            request.getRequestDispatcher("Detail.jsp").forward(request, response);
-            return;
-        }
-
-        // Mặc định nếu không có action hoặc action không xác định, hiển thị form tạo mới
-        request.setAttribute("isEdit", false);
-        request.getRequestDispatcher("Form.jsp").forward(request, response);
     }
 
     /**
@@ -126,80 +74,55 @@ public class RequestController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-protected void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
-    HttpSession session = request.getSession();
-    Account account = (Account) session.getAttribute("account");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("account");
+        if (account == null) {
+            response.sendRedirect("Login");
+        }
+        String DateFrom = request.getParameter("fromDate");
+        String DateTo = request.getParameter("toDate");
+        String Reaason = request.getParameter("reason");
+        List<String> error = new ArrayList<>();
+        if (Reaason == null || DateTo == null || DateFrom == null) {
+            error.add("Dữ liệu không hợp lệ, nhập lại.");
+            request.getRequestDispatcher("Form.jsp").forward(request, response);
+        }
 
-    // Kiểm tra nếu chưa đăng nhập
-    if (account == null) {
-        response.sendRedirect("Login");
-        return; // Dừng xử lý
-    }
+        Date datefrom = Date.valueOf(DateFrom);
+        Date dateto = Date.valueOf(DateTo);
+        Date now = Date.valueOf(LocalDate.now());
 
-    // Lấy dữ liệu từ form
-    
-    String dateFromStr = request.getParameter("fromDate") != null ? request.getParameter("fromDate").trim() : "";
-    String dateToStr = request.getParameter("toDate") != null ? request.getParameter("toDate").trim() : "";
-    String reason = request.getParameter("reason") != null ? request.getParameter("reason").trim() : "";
-    String idRaw = request.getParameter("id"); // Thêm để nhận ID khi chỉnh sửa
- // trim() là để loại bỏ khoảng trắng
-    List<String> error = new ArrayList<>();
-
-    // Kiểm tra dữ liệu trống
-    if (dateFromStr.isEmpty() || dateToStr.isEmpty() || reason.isEmpty()) {
-        error.add("Vui lòng nhập đầy đủ thông tin.");
-    }
-
-    Date dateFrom = null, dateTo = null, now = Date.valueOf(LocalDate.now());
-
-    try {
-        dateFrom = Date.valueOf(dateFromStr);
-        dateTo = Date.valueOf(dateToStr);
-
-        if (dateFrom.after(dateTo)) {
+        if (datefrom.after(dateto)) {
             error.add("Ngày bắt đầu nghỉ không thể sau ngày kết thúc nghỉ.");
+
         }
-        if (dateTo.before(now)) {
+        if (dateto.before(now)) {
             error.add("Ngày kết thúc nghỉ không thể là quá khứ.");
+
         }
-        if (dateFrom.before(now)) {
+        if (datefrom.before(now)) {
             error.add("Ngày bắt đầu nghỉ không thể là quá khứ.");
+
         }
-    } catch (IllegalArgumentException e) {
-        error.add("Ngày nhập vào không hợp lệ.");
-    }
+        if (dateto.before(datefrom)) {
+            error.add("Ngày kết thúc nghỉ không thể trước ngày bắt đầu nghỉ.");
 
-    // Nếu có lỗi, hiển thị lại form với thông báo
-    if (!error.isEmpty()) {
-        request.setAttribute("message", String.join("<br>", error));
-        request.getRequestDispatcher("Form.jsp").forward(request, response);
-        return; // Dừng xử lý
-    }
+        }
+        if (!error.isEmpty()) {
+            request.setAttribute("error", error);
+            request.getRequestDispatcher("Form.jsp").forward(request, response);
 
-    // Nếu không có lỗi, tiến hành chèn vào database
-    RequestDAO requestDAO = new RequestDAO();
-    if (idRaw != null && !idRaw.isEmpty()) { // Thêm logic cập nhật đơn
-            int id = Integer.parseInt(idRaw);
-            Request updatedRequest = new Request(id, account.getEmployeeId(), dateFrom, dateTo, now, reason, "Inprogress");
-            int result = requestDAO.updateRequest(updatedRequest);
-            if (result > 0) {
-                request.setAttribute("message", "Cập nhật đơn thành công!");
-            } else {
-                request.setAttribute("message", "Cập nhật đơn thất bại. Vui lòng thử lại.");
-            }
-        } else { // Giữ nguyên logic tạo mới
-            Request newRequest = new Request(0, account.getEmployeeId(), dateFrom, dateTo, now, reason, "Inprogress");
-            int result = requestDAO.insert(newRequest);
-            if (result > 0) {
-                request.setAttribute("message", "Tạo đơn thành công!");
-            } else {
-                request.setAttribute("message", "Gửi đơn thất bại. Vui lòng thử lại.");
-            }
+        } else {
+            RequestDAO requestdao = new RequestDAO();
+            Request re = new Request(0, account.getEmployeeId(), dateto, datefrom, now, Reaason, "Inprogress");
+            requestdao.insert(re);
+            response.sendRedirect("Home");
         }
 
-        request.getRequestDispatcher("Form.jsp").forward(request, response);
     }
+
     /**
      * Returns a short description of the servlet.
      *
