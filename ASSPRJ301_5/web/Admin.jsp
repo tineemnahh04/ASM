@@ -14,9 +14,9 @@
     <body>
         <button class="logout-button" onclick="window.location.href = 'http://localhost:8080/ASSPRJ301_5/logout'">Logout</button>
         <div class="container">
-            <button class="custom-button" onclick="window.location.href = 'Accept.jsp'">
+            <button class="custom-button" onclick="window.location.href='http://localhost:8080/ASSPRJ301_5/Management'">
                 <span>
-                    <span class="icon"></span> Xét Duyệt Đơn <span>➝</span>
+                    <span class="icon"></span> Xét Duyệt Đơn Manager <span>➝</span>
                 </span>
             </button>
             <button class="custom-button" onclick="window.location.href = 'Agenda.jsp'">
