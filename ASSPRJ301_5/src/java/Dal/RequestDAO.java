@@ -161,7 +161,7 @@ public class RequestDAO extends DBContext {
         return result;
     }
 
-    public List<RequestDTO> getequestbyEmployeeId() {
+    public List<RequestDTO> getRequestbyEmployeeId() {
         List<RequestDTO> list = new ArrayList<>();
         String sql = "select r.Id,r.DateCreate,r.DateFrom,r.DateTo,r.Reason,r.Status from Request r where r.EmployeeId=?";
         try {
@@ -206,7 +206,7 @@ public class RequestDAO extends DBContext {
         }return list;
     }
 
-    public Request getReuestbyId(int Id) {
+    public Request getRequestbyId(int Id) {
         Request r=null;
         String sql = "select r.Id,r.DateCreate,r.DateFrom,r.DateTo,r.Reason,r.Status from Request r where r.Id=?";
         try (PreparedStatement st = connection.prepareStatement(sql)) {
