@@ -78,61 +78,68 @@
         </style>
     </head>
     <body>
+        <button class="btn-back" onclick="window.location.href = 'http://localhost:8080/ASSPRJ301_5/Home'">
+            Quay lại
+        </button>
         <div class="container">
             <h2>Danh sách đơn nghỉ phép</h2>
-            <button class="back-button" onclick="window.location.href = 'Home'">Quay lại</button>
-            <c:choose>
-                <c:when test="${empty requests}">
-                    <p>Không có đơn nào được tìm thấy.</p>
-                </c:when>
-                <c:otherwise>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Title</th>
-                                <th>From</th>   <!-- Đổi vị trí: To trước -->
-                                <th>To</th>
-                                <th>Created By</th>
-                                <th>Status</th>
-                                <th>Update</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach var="request" items="${requests}">
-                                <tr>
-                                    <td>
-                                        <!-- Tạo liên kết đến trang chi tiết cho mọi trạng thái -->
-                                        <a href="Request?action=detail&id=${request.getId()}">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Created By</th>
+                        <th>Status</th>
+                        <th>Update</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="request" items="${requests}">
+                        <tr>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${request.getStatus() eq 'Inprogress'}">
+                                        <a href="detail?id=${request.getId()}">
                                             ${request.getReason()}
                                         </a>
-                                    </td>
-                                    <td>${request.dateTo}</td>   <!-- Đổi vị trí: DateTo trước -->
-                                    <td>${request.dateFrom}</td>
-                                    <td>${request.dateCreate}</td>
-                                    <td>
-                                        <c:choose>
-                                            <c:when test="${request.getStatus() eq 'Inprogress'}">
-                                                <span class="status-inprogress">Inprogress</span>
-                                            </c:when>
-                                            <c:when test="${request.getStatus() eq 'Rejected'}">
-                                                <span class="status-rejected">Rejected</span>
-                                            </c:when>
-                                            <c:otherwise>
-                                                ${request.getStatus()}
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </td>
-                                    <td>
-                                        <c:if test="${request.getStatus() eq 'Inprogress'}">
-                                            <a href="Request?action=edit&id=${request.id}">Edit</a>
-                                        </c:if>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                </c:otherwise>
-            </c:choose>
+                                    </c:when>
+                                    <c:otherwise>
+                                        ${request.getReason()}
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td style="white-space: nowrap;">${request.getDateFrom()}</td>
+                            <td style="white-space: nowrap;">${request.getDateTo()}</td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${request.getStatus() eq 'Inprogress'}">
+                                        <span class="status-pending">Inprogess</span>
+                                    </c:when>
+                                    <c:when test="${request.getStatus() eq 'Rejected'}">
+                                        <span class="status-rejected">Rejected</span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span class="status-approved">${request.getStatus()}</span>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td>
+                                <c:if test="${request.getStatus() eq 'Inprogess'}">
+                                    <div class="action-buttons">
+                                        <a href="${pageContext.request.contextPath}/Edit?id=${request.getId()}">Edit</a>
+                                        <span>|</span>
+                                        <a href="${pageContext.request.contextPath}/Delete?id=${request.getId()}" 
+                                           onclick="return confirm('Bạn có chắc chắn muốn xóa đơn này?');">
+                                            Delete
+                                        </a>
+                                    </div>
+                                </c:if>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
         </div>
     </body>
 </html>
