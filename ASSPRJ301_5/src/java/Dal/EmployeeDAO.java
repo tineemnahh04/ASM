@@ -3,25 +3,28 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Dal;
+
 import Model.Account;
 import Model.Employee;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  *
  * @author admin
  */
-public class EmployeeDAO extends DBContext{
+public class EmployeeDAO extends DBContext {
+
     DBContext db = new DBContext();
-    
-    public List<Employee> getAllEmployee(){
+
+    public List<Employee> getAllEmployee() {
         List<Employee> list = new ArrayList<>();
         String sql = "select * from [Employee]";
         try {
             PreparedStatement st = db.connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 Employee e = new Employee();
                 e.setId(rs.getInt(1));
                 e.setName(rs.getString(2));
@@ -35,7 +38,10 @@ public class EmployeeDAO extends DBContext{
         }
         return list;
     }
+
     public static void main(String[] args) {
-        
+        EmployeeDAO e = new EmployeeDAO();
+        List<Employee> l = e.getAllEmployee();
+        System.out.println(l.get(0));
     }
 }
