@@ -60,16 +60,19 @@
     <body>
         <button class="logout-button" onclick="window.location.href = 'http://localhost:8080/ASSPRJ301_5/logout'">Logout</button>
         <div class="container">
-            <button class="custom-button" onclick="window.location.href = 'FormManagement.jsp'">
+            <button class="custom-button" onclick="window.location.href = 'Form.jsp'">
                 <span>
                     <span class="icon"></span> Tạo Đơn Xin Nghỉ Phép <span>➝</span>
                 </span>
-                <button class="custom-button" onclick="window.location.href = 'Manager'">
-                    <span><span class="icon">📋</span> Xem Đơn <span>➝</span></span>
-                </button>
-                <button class="custom-button" onclick="window.location.href = 'Accept.jsp'">
+                <button class="custom-button" onclick="window.location.href='http://localhost:8080/ASSPRJ301_5/View'">
                     <span>
-                        <span class="icon"></span> Xét Duyệt Đơn <span>➝</span>
+                        <span class="icon">📋</span> Xem Đơn Của Tôi<span>➝</span>
+                            
+                    </span>
+                </button>
+                <button class="custom-button" onclick="window.location.href='http://localhost:8080/ASSPRJ301_5/Management'">
+                    <span>
+                        <span class="icon"></span> Xét Duyệt Đơn Nhân Viên <span>➝</span>
                     </span>
                 </button>
         </div>
