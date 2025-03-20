@@ -58,15 +58,34 @@
             td {
                 color: #b3ffb3;
             }
-            /* Định dạng liên kết trong bảng (bao gồm cả các nút hành động Edit, Delete) */
-            td a, .action-buttons a {
+            td a {
                 color: #1db954;
                 text-decoration: none;
                 font-weight: bold;
                 transition: all 0.3s;
             }
-            td a:hover, .action-buttons a:hover {
+            td a:hover  {
                 text-shadow: 0 0 5px rgba(0, 255, 0, 0.8); /* Hiệu ứng phát sáng khi hover */
+            }
+            /* Nút Edit (vẫn giữ màu xanh) */
+            .action-buttons a.edit {
+                color: #1db954;
+                text-decoration: none;
+                font-weight: bold;
+                transition: all 0.3s;
+            }
+            .action-buttons a.edit:hover {
+                text-shadow: 0 0 5px rgba(0, 255, 0, 0.8);
+            }
+            /* Nút Delete (màu đỏ) */
+            .action-buttons a.delete {
+                color: #FF5252;
+                text-decoration: none;
+                font-weight: bold;
+                transition: all 0.3s;
+            }
+            .action-buttons a.delete:hover {
+                text-shadow: 0 0 5px rgba(255, 82, 82, 0.8);
             }
 
             .status-inprogress {
@@ -128,16 +147,12 @@
                                     </c:otherwise>
                                 </c:choose>
                             </td>
-
                             <!-- From Date -->
                             <td style="white-space: nowrap;">${request.getDateFrom()}</td>
-
                             <!-- To Date -->
                             <td style="white-space: nowrap;">${request.getDateTo()}</td>
-
                             <!-- Create By -->
                             <td>${request.dateCreate}</td>
-
                             <!-- Status -->
                             <td>
                                 <c:choose>
@@ -152,14 +167,13 @@
                                     </c:otherwise>
                                 </c:choose>
                             </td>
-
-                            <!-- Update -->
                             <td>
                                 <c:if test="${request.getStatus() eq 'Inprogress'}">
                                     <div class="action-buttons">
-                                        <a href="${pageContext.request.contextPath}/Edit?id=${request.getId()}">Edit</a>
+                                        <a href="${pageContext.request.contextPath}/Edit?id=${request.getId()}" class="edit">Edit</a>
                                         <span> | </span>
                                         <a href="${pageContext.request.contextPath}/Delete?id=${request.getId()}" 
+                                           class="delete"
                                            onclick="return confirm('Bạn có chắc chắn muốn xóa đơn này?');">Delete</a>
                                     </div>
                                 </c:if>
