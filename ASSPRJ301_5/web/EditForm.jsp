@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Chỉnh sửa đơn nghỉ phép</title>
         <style>
             body {
                 background-color: #1e1e1e;
@@ -22,15 +22,16 @@
                 height: 100vh;
                 margin: 0;
             }
-            input[type="date"] {
+            input[type="date"], textarea {
                 background-color: #2c2c2c;
                 color: white;
                 border: 2px solid #444;
                 border-radius: 8px;
                 padding: 10px;
+                width: 100%;
             }
 
-            input[type="date"]:focus {
+            input[type="date"]:focus, textarea:focus {
                 border-color: #4CAF50;
                 box-shadow: 0 0 0 2px white, 0 0 0 4px #4CAF50;
                 outline: none;
@@ -55,20 +56,6 @@
                 display: block;
                 font-size: 14px;
                 color: white;
-            }
-            input, textarea {
-                width: 100%;
-                padding: 10px;
-                margin-top: 5px;
-                margin-bottom: 15px;
-                border-radius: 6px;
-                border: 1px solid #444;
-                background-color: #333;
-                color: white;
-            }
-            input:focus, textarea:focus {
-                border-color: #0aad4b;
-                outline: none;
             }
             .submit-btn {
                 background-color: #0aad4b;
