@@ -87,7 +87,7 @@ public class RequestManagerController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         HttpSession session = request.getSession();
+        HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
         if (account == null) {
             response.sendRedirect("Login");
@@ -110,13 +110,11 @@ public class RequestManagerController extends HttpServlet {
                 dao.UpdateStatusRequest("Rejected", requestId);
             }
         }
-
         // 4. Quay lại doGet để load danh sách mới
         response.sendRedirect("Management");
-    
 
     }
-    
+
     /**
      * Returns a short description of the servlet.
      *
