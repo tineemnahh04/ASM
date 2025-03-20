@@ -10,7 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-<style>
+        <style>
             body {
                 background-color: #1e1e1e;
                 color: #fff;
@@ -86,6 +86,12 @@
             .submit-btn:hover {
                 background-color: #088b3b;
             }
+            .success-message {
+                color: #4CAF50;
+                text-align: center;
+                margin-top: 10px;
+                font-size: 14px;
+            }
             .back-button {
                 position: absolute;
                 top: 20px;
@@ -102,21 +108,28 @@
                 background-color: #E53935;
             }
         </style>
-</head>
-<body>
-    <div class="form-container">
+    </head>
+    <body>
+        <div class="form-container">
             <h2>Chỉnh sửa đơn nghỉ phép</h2>
             <form action="Edit" method="POST">
                 <!-- Ẩn ID để gửi sang servlet -->
                 <input type="hidden" name="id" value="${request.getId()}" />
-                    <label>Từ ngày:</label>
-                    <input type="date" name="dateFrom" value="${request.getDateFrom()}" required />
-                    <label>Tới ngày:</label>
-                    <input type="date" name="dateTo" value="${request.getDateTo()}" required />
-                    <label>Lý do (Title):</label>
-                    <textarea name="reason" rows="4" required>${request.getReason()}</textarea>
-                    <button type="submit" class="submit-btn">Update</button>
-                    <button type="button" class="back-button" onclick="window.location.href='View'">Cancel</button>
+                <label>Từ ngày:</label>
+                <input type="date" name="dateFrom" value="${request.getDateFrom()}" required />
+                <label>Tới ngày:</label>
+                <input type="date" name="dateTo" value="${request.getDateTo()}" required />
+                <label>Lý do (Title):</label>
+                <textarea name="reason" rows="4" required>${request.getReason()}</textarea>
+                <% String successMessage = (String) request.getAttribute("successMessage"); %>
+                <% if (successMessage != null) { %>
+                <p style="color: green; text-align: center; margin-top: 10px;"><%= successMessage %></p>
+                <% } %>
+                <button type="submit" class="submit-btn">Update</button>
+                <c:if test="${not empty success}">
+                    <div class="success-message">${success}</div>
+                </c:if>
+                <button type="button" class="back-button" onclick="window.location.href = 'View'">Cancel</button>
             </form>
         </div>
     </body>
