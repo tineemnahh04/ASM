@@ -88,7 +88,6 @@ public class EditRequest extends HttpServlet {
             String dateFrom = request.getParameter("dateFrom");
             String dateTo = request.getParameter("dateTo");
 
-
             Request updatedRequest = new Request();
             updatedRequest.setId(ID);
             updatedRequest.setReason(reason);
@@ -99,7 +98,10 @@ public class EditRequest extends HttpServlet {
             RequestDAO requestDAO = new RequestDAO();
             requestDAO.updateRequest(updatedRequest); // Phương thức updateRequest cần được cài đặt trong DAO
 
-            response.sendRedirect("View");
+            request.setAttribute("successMessage", "Update đơn thành công!");
+
+            // 🟢 Forward về lại EditForm.jsp (không dùng redirect để giữ request)
+            request.getRequestDispatcher("EditForm.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
         }
