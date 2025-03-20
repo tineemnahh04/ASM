@@ -50,6 +50,13 @@
                 margin-bottom: 20px;
                 color: white;
             }
+            .success-message {
+                color: #4CAF50;
+                text-align: center;
+                margin-top: 10px;
+                font-size: 14px;
+                
+            }
             label {
                 margin-top: 10px;
                 display: block;
@@ -104,7 +111,7 @@
         </style>
     </head>
     <body>
-        <button class="back-button" onclick="window.history.back();">Quay lại</button>
+        <button type="button" class="back-button" onclick="window.location.href = 'Home'">Cancel</button>
         <div class="form-container">
             <h2>Đơn xin nghỉ phép</h2>
             <form action="Request" method="post">
@@ -118,6 +125,9 @@
                 <textarea id="reason" name="reason" required></textarea>
 
                 <button type="submit" class="submit-btn">Gửi</button>
+                <c:if test="${not empty success}">
+                    <div class="success-message">${success}</div>
+                </c:if>
             </form>
             <c:if test="${not empty error}">
                 <div class="error-list">
