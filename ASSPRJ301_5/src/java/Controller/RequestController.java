@@ -118,7 +118,8 @@ public class RequestController extends HttpServlet {
             RequestDAO requestdao = new RequestDAO();
             Request re = new Request(0, account.getEmployeeId(), dateto, datefrom, now, Reaason, "Inprogress");
             requestdao.insert(re);
-            response.sendRedirect("Home");
+            request.setAttribute("success", "Tạo đơn thành công"); // Set success message
+            request.getRequestDispatcher("Form.jsp").forward(request, response); // Forward back to Form.jsp
         }
 
     }
