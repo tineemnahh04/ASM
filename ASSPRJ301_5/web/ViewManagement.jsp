@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Danh sách đơn cần xét duyệt</title>
         <style>
             body {
                 background-color: #000;
@@ -30,13 +30,18 @@
             }
             h2 {
                 margin-bottom: 10px;
+                color: #1ed760;
+                text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
+                font-size: 35px;
             }
             table {
                 width: 100%;
                 border-collapse: collapse;
                 margin-top: 10px;
-                background: #222;
-                border-radius: 5px;
+                background: #1a1a1a;
+                border-radius: 15px;
+                overflow: hidden;
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
             }
             th, td {
                 padding: 10px;
@@ -44,20 +49,13 @@
                 text-align: left;
             }
             th {
-                background: #1db954;
+                background: linear-gradient(145deg, #1ed760, #13a148);
+                color: white;
+                font-size: 20px;
+                text-shadow: 0 0 6px rgba(0, 255, 0, 0.8);
             }
-            .status-inprogress {
-                color: yellow;
-            }
-            .status-rejected {
-                color: red;
-            }
-            a {
-                color: #1db954;
-                text-decoration: none;
-            }
-            a:hover {
-                text-decoration: underline;
+            td {
+                color: #b3ffb3;
             }
             .back-button {
                 position: absolute;
@@ -70,15 +68,46 @@
                 font-size: 16px;
                 cursor: pointer;
                 border-radius: 5px;
+                transition: all 0.3s;
             }
             .back-button:hover {
                 background-color: #E53935;
+            }
+            .action-button {
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                font-size: 14px;
+                font-weight: bold;
+                cursor: pointer;
+                transition: all 0.3s;
+                margin: 5px;
+                display: block;
+                width: 100%;
+            }
+            .approve {
+                background-color: #1db954;
+                color: white;
+            }
+            .approve:hover {
+                background-color: #17a344;
+            }
+            .reject {
+                background-color: #FF5252;
+                color: white;
+            }
+            .reject:hover {
+                background-color: #E53935;
+            }
+            .action-cell {
+                display: flex;
+                justify-content: space-around;
             }
         </style>
     </head>
     <body>
         <!-- Nút quay lại -->
-        <button class="back-button" onclick="window.location.href='http://localhost:8080/ASSPRJ301_5/Home'">Quay lại</button>
+        <button class="back-button" onclick="window.location.href = 'http://localhost:8080/ASSPRJ301_5/Home'">Quay lại</button>
         <div class="container">
             <h2>Danh sách đơn cần xét duyệt</h2>
             <table>
@@ -97,33 +126,33 @@
                 </thead>
                 <tbody>
                     <c:forEach var="req" items="${requests}">
-    <c:if test="${req.getStatus() eq 'Inprogress'}">
-        <tr>
-            <td>${req.getId()}</td>
-            <td style="white-space: nowrap;">${req.getDateCreate()}</td>
-            <td style="white-space: nowrap;">${req.getDateFrom()}</td>
-            <td style="white-space: nowrap;">${req.getDateTo()}</td>
-            <td>${req.getReason()}</td>
-            <td>${req.getStatus()}</td>
-            <td>${req.geteId()}</td>
-            <td>${req.geteName()}</td>
-            <td>
-                <!-- Form Approve -->
-                <form action="Management" method="post" style="display: inline;">
-                    <input type="hidden" name="requestId" value="${req.getId()}"/>
-                    <input type="submit" name="action" value="Approve"
-                           class="action-button approve" />
-                </form>
-                <!-- Form Reject -->
-                <form action="Management" method="post" style="display: inline;">
-                    <input type="hidden" name="requestId" value="${req.getId()}"/>
-                    <input type="submit" name="action" value="Reject"
-                           class="action-button reject" />
-                </form>
-            </td>
-        </tr>
-    </c:if>
-</c:forEach>
+                        <c:if test="${req.getStatus() eq 'Inprogress'}">
+                            <tr>
+                                <td>${req.getId()}</td>
+                                <td style="white-space: nowrap;">${req.getDateCreate()}</td>
+                                <td style="white-space: nowrap;">${req.getDateFrom()}</td>
+                                <td style="white-space: nowrap;">${req.getDateTo()}</td>
+                                <td>${req.getReason()}</td>
+                                <td>${req.getStatus()}</td>
+                                <td>${req.geteId()}</td>
+                                <td>${req.geteName()}</td>
+                                <td>
+                                    <!-- Form Approve -->
+                                    <form action="Management" method="post" style="display: inline;">
+                                        <input type="hidden" name="requestId" value="${req.getId()}"/>
+                                        <input type="submit" name="action" value="Approve"
+                                               class="action-button approve" />
+                                    </form>
+                                    <!-- Form Reject -->
+                                    <form action="Management" method="post" style="display: inline;">
+                                        <input type="hidden" name="requestId" value="${req.getId()}"/>
+                                        <input type="submit" name="action" value="Reject"
+                                               class="action-button reject" />
+                                    </form>
+                                </td>
+                            </tr>
+                        </c:if>
+                    </c:forEach>
                 </tbody>
             </table>
         </div>
