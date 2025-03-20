@@ -24,39 +24,62 @@
             .container {
                 background: #121212;
                 padding: 30px;
-                border-radius: 10px;
+                border-radius: 15px;
                 text-align: center;
                 width: 80%;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
             }
             h2 {
                 margin-bottom: 10px;
+                color: #1ed760;
+                text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
+                font-size: 35px;
             }
             table {
                 width: 100%;
-                border-collapse: separate;
-                border-spacing: 0;
+                border-collapse: collapse;
                 margin-top: 10px;
-                background: #222;
-                border-radius: 10px;
+                background: #1a1a1a;
+                border-radius: 15px;
                 overflow: hidden;
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+            }
+            th, td {
+                padding: 15px;
+                text-align: left;
+                border-bottom: 1px solid #333;
+            }
+            th {
+                background: linear-gradient(145deg, #1ed760, #13a148);
+                color: white;
+                font-size: 20px;
+                text-shadow: 0 0 6px rgba(0, 255, 0, 0.8), 0 0 12px rgba(0, 255, 0, 0.5);
+            }
+            td {
+                color: #b3ffb3;
+            }
+            /* Định dạng liên kết trong bảng (bao gồm cả các nút hành động Edit, Delete) */
+            td a, .action-buttons a {
+                color: #1db954;
+                text-decoration: none;
+                font-weight: bold;
+                transition: all 0.3s;
+            }
+            td a:hover, .action-buttons a:hover {
+                text-shadow: 0 0 5px rgba(0, 255, 0, 0.8); /* Hiệu ứng phát sáng khi hover */
             }
 
-            th ,td {
-                background: #1db954;
-                border-radius: 0;
-            }
             .status-inprogress {
                 color: yellow;
+                font-weight: bold;
             }
             .status-rejected {
                 color: red;
+                font-weight: bold;
             }
-            a {
-                color: #1db954;
-                text-decoration: none;
-            }
-            a:hover {
-                text-decoration: underline;
+            .status-approved {
+                color: lightgreen;
+                font-weight: bold;
             }
             .back-button {
                 position: absolute;
@@ -69,11 +92,11 @@
                 font-size: 16px;
                 cursor: pointer;
                 border-radius: 5px;
+                transition: all 0.3s;
             }
             .back-button:hover {
                 background-color: #E53935;
             }
-
         </style>
     </head>
     <body>
@@ -94,12 +117,11 @@
                 <tbody>
                     <c:forEach var="request" items="${requests}">
                         <tr>
+                            <!-- Title -->
                             <td>
                                 <c:choose>
                                     <c:when test="${request.getStatus() eq 'Inprogress'}">
-                                        <a href="detail?id=${request.getId()}">
-                                            ${request.getReason()}
-                                        </a>
+                                        <a href="detail?id=${request.getId()}">${request.getReason()}</a>
                                     </c:when>
                                     <c:otherwise>
                                         ${request.getReason()}
@@ -107,15 +129,20 @@
                                 </c:choose>
                             </td>
 
+                            <!-- From Date -->
                             <td style="white-space: nowrap;">${request.getDateFrom()}</td>
-                            <td style="white-space: nowrap;">${request.getDateTo()}</td>
-                            <td>${request.dateCreate}</td>
-                            <td></td>
-                            <td>
 
+                            <!-- To Date -->
+                            <td style="white-space: nowrap;">${request.getDateTo()}</td>
+
+                            <!-- Create By -->
+                            <td>${request.dateCreate}</td>
+
+                            <!-- Status -->
+                            <td>
                                 <c:choose>
                                     <c:when test="${request.getStatus() eq 'Inprogress'}">
-                                        <span class="status-pending">Inprogess</span>
+                                        <span class="status-inprogress">Inprogress</span>
                                     </c:when>
                                     <c:when test="${request.getStatus() eq 'Rejected'}">
                                         <span class="status-rejected">Rejected</span>
@@ -125,15 +152,15 @@
                                     </c:otherwise>
                                 </c:choose>
                             </td>
+
+                            <!-- Update -->
                             <td>
                                 <c:if test="${request.getStatus() eq 'Inprogress'}">
                                     <div class="action-buttons">
                                         <a href="${pageContext.request.contextPath}/Edit?id=${request.getId()}">Edit</a>
-                                        <span>|</span>
+                                        <span> | </span>
                                         <a href="${pageContext.request.contextPath}/Delete?id=${request.getId()}" 
-                                           onclick="return confirm('Bạn có chắc chắn muốn xóa đơn này?');">
-                                            Delete
-                                        </a>
+                                           onclick="return confirm('Bạn có chắc chắn muốn xóa đơn này?');">Delete</a>
                                     </div>
                                 </c:if>
                             </td>
