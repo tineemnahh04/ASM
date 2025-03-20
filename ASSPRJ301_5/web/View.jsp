@@ -1,7 +1,7 @@
- <%-- 
-    Document   : View
-    Created on : Mar 15, 2025, 4:05:56 AM
-    Author     : admin
+<%-- 
+   Document   : View
+   Created on : Mar 15, 2025, 4:05:56 AM
+   Author     : admin
 --%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -33,18 +33,17 @@
             }
             table {
                 width: 100%;
-                border-collapse: collapse;
+                border-collapse: separate;
+                border-spacing: 0;
                 margin-top: 10px;
                 background: #222;
-                border-radius: 5px;
+                border-radius: 10px;
+                overflow: hidden;
             }
-            th, td {
-                padding: 10px;
-                border-bottom: 1px solid #333;
-                text-align: left;
-            }
-            th {
+
+            th ,td {
                 background: #1db954;
+                border-radius: 0;
             }
             .status-inprogress {
                 color: yellow;
@@ -87,7 +86,7 @@
                         <th>Title</th>
                         <th>From</th>
                         <th>To</th>
-                        <th>Created By</th>
+                        <th>Create By</th>
                         <th>Status</th>
                         <th>Update</th>
                     </tr>
@@ -107,11 +106,13 @@
                                     </c:otherwise>
                                 </c:choose>
                             </td>
+
                             <td style="white-space: nowrap;">${request.getDateFrom()}</td>
                             <td style="white-space: nowrap;">${request.getDateTo()}</td>
+                            <td>${request.dateCreate}</td>
                             <td></td>
                             <td>
-                            
+
                                 <c:choose>
                                     <c:when test="${request.getStatus() eq 'Inprogress'}">
                                         <span class="status-pending">Inprogess</span>
