@@ -39,6 +39,12 @@
             .custom-button:hover {
                 background-color: #009624;
             }
+              h2 {
+                color: #0aad4b;
+                text-align: center;
+                margin-bottom: 20px;
+                text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+            }
             .logout-button {
                 position: absolute;
                 top: 20px;
@@ -58,23 +64,20 @@
         </style>
     </head>
     <body>
-        <button class="logout-button" onclick="window.location.href = 'http://localhost:8080/ASSPRJ301_5/logout'">Logout</button>
+        <button class="logout-button" onclick="window.location.href = 'http://localhost:8080/ASSPRJ301_5/logout'">
+            Logout
+        </button>
         <div class="container">
+            <h2>Xin chào, ${account.username}</h2>
             <button class="custom-button" onclick="window.location.href = 'Form.jsp'">
-                <span>
-                    <span class="icon"></span> Tạo Đơn Xin Nghỉ Phép <span>➝</span>
-                </span>
-                <button class="custom-button" onclick="window.location.href='http://localhost:8080/ASSPRJ301_5/View'">
-                    <span>
-                        <span class="icon">📋</span> Xem Đơn Của Tôi<span>➝</span>
-                            
-                    </span>
-                </button>
-                <button class="custom-button" onclick="window.location.href='http://localhost:8080/ASSPRJ301_5/Management'">
-                    <span>
-                        <span class="icon"></span> Xét Duyệt Đơn Nhân Viên <span>➝</span>
-                    </span>
-                </button>
+                Tạo Đơn Xin Nghỉ Phép ➝
+            </button>
+            <button class="custom-button" onclick="window.location.href = 'http://localhost:8080/ASSPRJ301_5/View'">
+                Xem Đơn Của Tôi ➝
+            </button>
+            <button class="custom-button" onclick="window.location.href = 'http://localhost:8080/ASSPRJ301_5/Management'">
+                Xét Duyệt Đơn Nhân Viên ➝
+            </button>
         </div>
     </body>
 </html>
