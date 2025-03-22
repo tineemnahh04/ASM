@@ -33,9 +33,9 @@
                 margin-bottom: 20px;
             }
             input {
-                background-color: #1e1e1e; 
+                background-color: #1e1e1e;
                 color: white;
-                border: 1px solid #444; 
+                border: 1px solid #444;
                 padding: 10px;
                 width: 90%;
                 margin-bottom: 15px;
@@ -45,9 +45,9 @@
 
             input:focus {
                 outline: none;
-                border-color: #4CAF50; 
-                box-shadow: 0 0 3px #4CAF50; 
-                background-color: #1e1e1e; 
+                border-color: #4CAF50;
+                box-shadow: 0 0 3px #4CAF50;
+                background-color: #1e1e1e;
             }
 
             .btn {
@@ -67,6 +67,11 @@
             .error {
                 color: red;
                 margin-bottom: 10px;
+            }
+            .error-list {
+                color: #ff5252;
+                text-align: center;
+                margin-top: 10px;
             }
         </style>
     </head>
