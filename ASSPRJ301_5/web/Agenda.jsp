@@ -10,7 +10,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <style>
+        <title>Lịch làm việc</title>
+    <style>
             body {
                 background-color: #1e1e1e;
                 color: white;
@@ -27,22 +28,25 @@
                 color: #0aad4b;
                 text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
                 margin-bottom: 20px;
+                font-size: 38px;
             }
             .date-filter {
-                margin-bottom: 20px;
+                margin-bottom: 30px;
                 display: flex;
-                gap: 10px;
+                gap: 15px;
                 align-items: center;
             }
             .date-filter label {
-                font-size: 14px;
+                font-size: 18px;
             }
             .date-filter input[type="date"] {
                 background-color: #2c2c2c;
                 color: white;
                 border: 2px solid #444;
                 border-radius: 5px;
-                padding: 5px;
+                padding: 8px;
+                font-size: 16px;
+                width: 200px;
             }
             .date-filter input[type="date"]:focus {
                 border-color: #4CAF50;
@@ -55,9 +59,10 @@
                 background-color: #0aad4b;
                 color: white;
                 border: none;
-                padding: 8px 15px;
+                padding: 10px 20px;
                 border-radius: 5px;
                 cursor: pointer;
+                font-size: 16px;
             }
             .date-filter button:hover {
                 background-color: #088b3b;
@@ -65,27 +70,33 @@
             table {
                 width: auto; /* Tự điều chỉnh theo nội dung */
                 border-collapse: separate; /* Dùng border-collapse: separate để tạo khoảng cách giữa các ô */
-                border-spacing: 2px; /* Khoảng cách giữa các ô */
+                border-spacing: 3px; /* Tăng khoảng cách giữa các ô */
                 background: #2b2b2b; /* Màu nền bảng */
                 border-radius: 10px;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Đổ bóng cho bảng */
             }
             th, td {
-                padding: 10px;
+                padding: 8px; /* Tăng padding để ô lớn hơn */
                 text-align: center;
                 border: none; /* Xóa đường viền */
-                width: 40px; /* Kích thước cố định cho mỗi cột */
+                width: 80px; /* Tăng chiều rộng để ô to hơn */
+                height: 40px; /* Tăng chiều cao để ô to hơn, nhưng vẫn bẹt (chiều rộng > chiều cao) */
+                box-sizing: border-box; /* Đảm bảo padding không làm tăng kích thước ô */
+                font-size: 16px; /* Tăng kích thước chữ để dễ đọc */
             }
             th {
                 background-color: #333; /* Màu nền tiêu đề */
-                font-size: 14px;
                 font-weight: bold;
                 border-radius: 5px; /* Bo góc cho ô tiêu đề */
             }
             td {
-                font-size: 14px;
                 border-radius: 5px; /* Bo góc cho ô dữ liệu */
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Đổ bóng cho từng ô */
+            }
+            /* Cột "Nhân sự" có thể rộng hơn một chút để chứa tên */
+            th:first-child, td:first-child {
+                width: 160px; /* Tăng chiều rộng cho cột "Nhân sự" */
+                text-align: left; /* Căn trái cho tên nhân viên */
             }
             .available {
                 background-color: #4CAF50; /* Màu xanh lá cho trạng thái đi làm */
