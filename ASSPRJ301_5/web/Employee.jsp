@@ -28,6 +28,12 @@
                 gap: 15px;
                 align-items: center;
             }
+              h2 {
+                color: #0aad4b;
+                text-align: center;
+                margin-bottom: 20px;
+                text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+            }
             .custom-button {
                 background-color: #0aad4b;
                 color: white;
@@ -67,6 +73,7 @@
     <body>
         <button class="logout-button" onclick="window.location.href = 'http://localhost:8080/ASSPRJ301_5/logout'">Logout</button>
         <div class="container">
+            <h2>Xin chào, ${account.username}</h2>
             <button class="custom-button" onclick="window.location.href = 'Form.jsp'">
                 <span> Tạo Đơn Xin Nghỉ Phép ➝</span>
             </button>
