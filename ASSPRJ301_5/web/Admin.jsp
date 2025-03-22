@@ -10,7 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Admin</title>
-                <style>
+        <style>
             body {
                 background-color: #1e1e1e;
                 color: white;
@@ -22,11 +22,17 @@
                 height: 100vh;
                 margin: 0;
             }
-                        .container {
+            .container {
                 display: flex;
                 flex-direction: column;
                 gap: 15px;
                 align-items: center;
+            }
+            h2 {
+                color: #0aad4b;
+                text-align: center;
+                margin-bottom: 20px;
+                text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
             }
             .custom-button {
                 background-color: #0aad4b;
@@ -59,17 +65,15 @@
         </style>
     </head>
     <body>
-        <button class="back-button" onclick="window.location.href = 'http://localhost:8080/ASSPRJ301_5/logout'">Logout</button>
+        <button class="back-button" onclick="window.location.href = '${pageContext.request.contextPath}/logout'">Logout</button>
         <div class="container">
-            <button class="custom-button" onclick="window.location.href='http://localhost:8080/ASSPRJ301_5/Management'">
-                <span>
-                    <span class="icon"></span> Xét Duyệt Đơn Manager <span>➝</span>
-                </span>
+            <h2>Xin chào, ${account.username}</h2>
+            <button class="custom-button" onclick="window.location.href = '${pageContext.request.contextPath}/Management'">
+                Xét Duyệt Đơn của Manager ➝
             </button>
             <button class="custom-button" onclick="window.location.href = 'Agenda.jsp'">
-                <span>
-                    <span class="icon"></span> View Agenda <span>➝</span>
-                </span>
+                Xem Lịch Làm Việc ➝
+            </button>
         </div>
     </body>
 </html>
