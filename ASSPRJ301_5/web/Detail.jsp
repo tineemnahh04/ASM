@@ -10,7 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Chi tiết đơn nghỉ phép</title>
-     <style>
+        <style>
             body {
                 background-color: #1e1e1e;
                 color: #fff;
@@ -116,17 +116,16 @@
         <div class="form-container">
             <h2>Chi tiết đơn nghỉ</h2>
             <c:if test="${detail != null}">
-                    <label>Ngày tạo: ${detail.getDateCreate()}</label>
-                    <label>Từ ngày: ${detail.getDateFrom()}</label> 
-                    <label>Tới ngày: ${detail.getDateTo()}</label> 
-                    <label>Lý do: ${detail.getReason()}</label> 
-                    <label>Trạng thái: ${detail.getStatus()}</label>                      
-                </div>
-            </c:if>
-            <!--<c:if test="${empty detail}">
-                <p style="color: red; text-align: center; font-size: 16px;">Không tìm thấy đơn nghỉ phép.</p>
-            </c:if>-->
-            <button type="button" class="back-button" onclick="window.location.href='View'">Cancel</button>
+                <label>Ngày tạo: ${detail.getDateCreate()}</label>
+                <label>Từ ngày: ${detail.getDateFrom()}</label> 
+                <label>Tới ngày: ${detail.getDateTo()}</label> 
+                <label>Lý do: ${detail.getReason()}</label> 
+                <label>Trạng thái: ${detail.getStatus()}</label>                      
         </div>
-    </body>
+    </c:if>
+    <button type="button" class="back-button" onclick="window.location.href = 'View'">
+        Cancel
+    </button>
+</div>
+</body>
 </html>
