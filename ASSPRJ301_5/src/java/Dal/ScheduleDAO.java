@@ -4,6 +4,7 @@
  */
 package Dal;
 
+import Model.RequestDTO;
 import Model.ScheduleDTO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,7 +25,6 @@ public class ScheduleDAO extends DBContext{
         List<ScheduleDTO> list = new ArrayList<>();
         String sql = "select  sche.Id,sche.Date,sche.Status,e.Name from Schedule sche inner join Employee e on e.Id = sche.EmployeeId";
         try {
-
             PreparedStatement st = db.connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
@@ -47,11 +47,9 @@ public class ScheduleDAO extends DBContext{
         String sql = "select  sche.Id,sche.Date,sche.Status,e.Name from Schedule sche inner join Employee e on e.Id"
                 + " = sche.EmployeeId where e.Parentemployee = ?";
         try {
-
             PreparedStatement st = db.connection.prepareStatement(sql);
             st.setInt(1, EmployeeId);
             ResultSet rs = st.executeQuery();
-
             while (rs.next()) {
                 ScheduleDTO s = new ScheduleDTO();
                 s.setId(rs.getInt(1));
@@ -62,6 +60,41 @@ public class ScheduleDAO extends DBContext{
             }
         } catch (SQLException ex) {
         }
+        return list;
+    }
+    public List<RequestDTO> getApprovedRequestsInRange(Date startDate, Date endDate) {
+        List<RequestDTO> list = new ArrayList<>();
+        String sql = "SELECT r.Id, r.DateCreate, r.DateFrom, r.DateTo, r.Reason, r.Status, r.EmployeeId, e.Name " +
+                     "FROM Request r " +
+                     "INNER JOIN Employee e ON e.Id = r.EmployeeId " +
+                     "WHERE r.Status = 'Approved' " +
+                     "AND (r.DateFrom <= ? AND r.DateTo >= ?)";
+
+        try {
+            PreparedStatement st = db.connection.prepareStatement(sql);
+            st.setDate(1, endDate);   // Kiểm tra DateFrom <= endDate
+            st.setDate(2, startDate); // Kiểm tra DateTo >= startDate
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                RequestDTO r = new RequestDTO();
+                r.setId(rs.getInt("Id"));
+                r.setDateCreate(rs.getDate("DateCreate"));
+                r.setDateFrom(rs.getDate("DateFrom"));
+                r.setDateTo(rs.getDate("DateTo"));
+                r.setReason(rs.getString("Reason"));
+                r.setStatus(rs.getString("Status"));
+                r.seteId(rs.getInt("EmployeeId"));
+                r.seteName(rs.getString("Name"));
+                list.add(r);
+            }
+
+            rs.close();
+            st.close();
+        } catch (SQLException ex) {
+            System.out.println("Error retrieving approved requests: " + ex.getMessage());
+        }
+
         return list;
     }
 
