@@ -58,8 +58,31 @@ public class RequestViewManagement extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
-    } 
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("account");
+        
+        if (account == null) {
+            response.sendRedirect("Login");
+            return;
+        }
+
+        try {
+            RequestDAO requestDAO = new RequestDAO();
+            List<RequestDTO> list = requestDAO.getRequestbyManagerID(account.getEmployeeId());
+            
+            if (list == null || list.isEmpty()) {
+                request.setAttribute("message", "Không có yêu cầu nào để hiển thị.");
+            } else {
+                request.setAttribute("requests", list);
+            }
+            request.getRequestDispatcher("View.jsp").forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("error", "Đã xảy ra lỗi khi tải danh sách yêu cầu.");
+            request.getRequestDispatcher("Error.jsp").forward(request, response);
+        }
+    }
+    
 
     /** 
      * Handles the HTTP <code>POST</code> method.
@@ -71,22 +94,7 @@ public class RequestViewManagement extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("account");
-        if (account == null) {
-            response.sendRedirect("Login");
-            return;
-        }
-
-        // Gọi DAO lấy danh sách đơn
-        RequestDAO requestdao=new RequestDAO();
-        List<RequestDTO> list=requestdao.getRequestbyManagerID(account.getEmployeeId());
-
-//        Gắn danh sách vào request scope
-        request.setAttribute("requests", list);
-
-//        Forward sang trang JSP
-        request.getRequestDispatcher("View.jsp").forward(request, response);
+        doGet(request, response);
     }
     
 
@@ -96,7 +104,7 @@ public class RequestViewManagement extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Servlet to view requests managed by a manager";
     }// </editor-fold>
 
 }
