@@ -122,7 +122,7 @@
         </style>
     </head>
     <body>
-        <button class="back-button" onclick="window.location.href='${pageContext.request.contextPath}/Home'">Quay lại</button>
+        <button class="back-button" onclick="window.location.href='${pageContext.request.contextPath}/Home'">Back</button>
         <h2>Lịch làm việc</h2>
 
         <!-- Bộ lọc ngày -->
@@ -137,41 +137,39 @@
         </div>
 
         <!-- Bảng lịch làm việc -->
-        <!-- Chỉ hiển thị bảng nếu đã nhấn nút "Lọc" (có tham số fromDate và toDate) -->
-        <c:if test="${not empty param.fromDate and not empty param.toDate}">
-            <table id="scheduleTable">
-                <tr>
-                    <th>Nhân sự</th> <!-- Giữ cột "Nhân sự" -->
-                    <!-- Hiển thị ngày ở hàng tiêu đề -->
-                    <c:forEach var="date" items="${dateRange}">
-                        <th><fmt:formatDate value="${date}" pattern="d/M"/></th>
-                    </c:forEach>
-                </tr>
-                <c:forEach var="employee" items="${employees}">
-                    <!-- Bỏ qua nhân viên có tên "Admin User" -->
-                    <c:if test="${employee.name != 'Admin User'}">
-                        <tr>
-                            <td>${employee.name}</td> <!-- Hiển thị tên nhân viên -->
-                            <c:forEach var="date" items="${dateRange}">
-                                <c:set var="isAvailable" value="true"/>
-                                <c:set var="reason" value=""/> <!-- Biến tạm để lưu lý do nghỉ -->
-                                <c:forEach var="request" items="${approvedRequests}">
-                                    <c:if test="${request.eName eq employee.name}">
-                                        <c:if test="${date ge request.dateFrom and date le request.dateTo}">
-                                            <c:if test="${request.status eq 'Approved'}">
-                                                <c:set var="isAvailable" value="false"/>
-                                                <c:set var="reason" value="${request.reason}"/>
-                                            </c:if>
-                                        </c:if>
-                                    </c:if>
-                                </c:forEach>
-                                <td class="${isAvailable ? 'available' : 'unavailable'}" 
-                                    title="${isAvailable ? '' : reason}"></td>
-                            </c:forEach>
-                        </tr>
-                    </c:if>
-                </c:forEach>
-            </table>
-        </c:if>
-    </body>
-</html>
+         <!-- Chỉ hiển thị bảng nếu đã nhấn nút "Lọc" (có tham số fromDate và toDate) -->
+         <c:if test="${not empty param.fromDate and not empty param.toDate}">
+             <table id="scheduleTable">
+                 <tr>
+                     <th>Nhân sự</th> <!-- Giữ cột "Nhân sự" -->
+                     <!-- Hiển thị ngày ở hàng tiêu đề -->
+                     <c:forEach var="date" items="${dateRange}">
+                         <th><fmt:formatDate value="${date}" pattern="d/M"/></th>
+                     </c:forEach>
+                 </tr>
+                 <c:forEach var="employee" items="${employees}">
+                     <!-- Bỏ qua nhân viên có tên "Admin User" -->
+                     <c:if test="${employee.name != 'Admin'}">
+                         <tr>
+                             <td>${employee.name}</td> <!-- Hiển thị tên nhân viên -->
+                             <c:forEach var="date" items="${dateRange}">
+                                 <c:set var="isAvailable" value="true"/>
+                                 <c:forEach var="request" items="${approvedRequests}">
+                                     <c:if test="${request.eName eq employee.name}">
+                                         <c:if test="${date ge request.dateFrom and date le request.dateTo}">
+                                             <c:if test="${request.status eq 'Approved'}">
+                                                 <c:set var="isAvailable" value="false"/>
+                                             </c:if>
+                                         </c:if>
+                                     </c:if>
+                                 </c:forEach>
+                                 <td class="${isAvailable ? 'available' : 'unavailable'}" 
+                                     title="${isAvailable ? '' : reason}"></td>
+                             </c:forEach>
+                         </tr>
+                     </c:if>
+                 </c:forEach>
+             </table>
+         </c:if>
+     </body>
+ </html>
