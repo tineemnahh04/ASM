@@ -111,7 +111,9 @@
         </style>
     </head>
     <body>
-        <button type="button" class="back-button" onclick="window.location.href = 'Home'">Cancel</button>
+        <button type="button" class="back-button" onclick="window.location.href = 'Home'">
+            Back
+        </button>
         <div class="form-container">
             <h2>Đơn xin nghỉ phép</h2>
             <form action="Request" method="post">
