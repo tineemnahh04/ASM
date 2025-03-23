@@ -116,7 +116,7 @@
                 <c:if test="${not empty success}">
                     <div class="success-message">${success}</div>
                 </c:if>
-                <button type="button" class="back-button" onclick="window.location.href = 'View'">Cancel</button>
+                <button type="button" class="back-button" onclick="window.location.href = 'View'">Back</button>
             </form>
         </div>
     </body>
