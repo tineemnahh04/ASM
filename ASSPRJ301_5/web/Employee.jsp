@@ -71,7 +71,9 @@
         </style>
     </head>
     <body>
-        <button class="logout-button" onclick="window.location.href = 'http://localhost:8080/ASSPRJ301_5/logout'">Logout</button>
+        <button class="logout-button" onclick="window.location.href = 'http://localhost:8080/ASSPRJ301_5/logout'">
+            LogOut
+        </button>
         <div class="container">
             <h2>Xin chào, ${account.username}</h2>
             <button class="custom-button" onclick="window.location.href = 'Form.jsp'">
