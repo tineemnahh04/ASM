@@ -135,7 +135,6 @@
                 <button type="submit">Lọc</button>
             </form>
         </div>
-
         <!-- Bảng lịch làm việc -->
          <!-- Chỉ hiển thị bảng nếu đã nhấn nút "Lọc" (có tham số fromDate và toDate) -->
          <c:if test="${not empty param.fromDate and not empty param.toDate}">
