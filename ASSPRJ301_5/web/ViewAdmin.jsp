@@ -140,7 +140,7 @@
         </style>
     </head>
     <body>
-         <button class="back-button" onclick="window.location.href = 'http://localhost:8080/ASSPRJ301_5/Home'"> Quay lại </button>
+         <button class="back-button" onclick="window.location.href = 'http://localhost:8080/ASSPRJ301_5/Home'">Back</button>
         <div class="container">
             <h2>Danh sách đơn cần xét duyệt</h2>
             <table>
