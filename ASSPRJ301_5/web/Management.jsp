@@ -65,7 +65,7 @@
     </head>
     <body>
         <button class="logout-button" onclick="window.location.href = 'http://localhost:8080/ASSPRJ301_5/logout'">
-            Logout
+            LogOut
         </button>
         <div class="container">
             <h2>Xin chào, ${account.username}</h2>
