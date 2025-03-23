@@ -124,7 +124,7 @@
         </div>
     </c:if>
     <button type="button" class="back-button" onclick="window.location.href = 'View'">
-        Cancel
+        Back
     </button>
 </div>
 </body>
